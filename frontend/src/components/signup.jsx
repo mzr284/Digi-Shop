@@ -7,7 +7,7 @@ export default function Signup(){
     let [email, setEmail] = useState("")
     let [password, setPassword] = useState("")
     let [password2, setPassword2] = useState("")
-    let { notifData, setNotifData } = useContext(NotifContext);
+    let { setNotifData } = useContext(NotifContext);
     const Signup = async ()=>{
         setUsername(""); setEmail(""); setPassword(""); setPassword2("");
         try{
