@@ -26,7 +26,7 @@ app.post("/signup", async (req, res)=>{
     }
     let userWithThisUsername = await User.find({username: username})
     if(userWithThisUsername.length > 0){
-        res.status(402).json({message: "You have signed up before it, please Sign in"})
+        res.status(409).json({message: "You have signed up before it, please Sign in"})
     }
     const newUser = User({username, password, email})
     await newUser.save();

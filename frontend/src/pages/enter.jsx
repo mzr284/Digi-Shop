@@ -1,12 +1,14 @@
 import { useState } from "react"
 import Signin from "../components/signin";
 import Signup from "../components/signup";
+import Notification from "../components/notification";
 
 export default function Enter(){
-    let [status, setStatus] = useState("signup");
+    let [status, setStatus] = useState("signin");
     return(
-        <div className="w-full flex items-center justify-center h-170 bg-pink-50">
-            <div className="mx-5 w-180 flex justify-between mt-10">
+        <div className="w-full flex flex-col items-center justify-center h-170 bg-pink-50">
+            <Notification/>
+            <div className="mx-5 w-180 flex justify-between mt-15">
                     { 
                         status === "signin" ?
                         <div className="text-blue-950 flex flex-col gap-10 items-center justify-center shadow translate-x-full w-90
