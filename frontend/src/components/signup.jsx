@@ -12,9 +12,9 @@ export default function Signup(){
         setUsername(""); setEmail(""); setPassword(""); setPassword2("");
         try{
             const res = await axios.post("http://localhost:5000/signup", {username: username, email: email, password: password, password2: password2})
-            setNotifData({status: 'active', code: res.status, msg: res.data.message})
+            setNotifData({status: 'active', code: res.status, msg: res.data.message, description: res.data.description})
         } catch(err){
-            setNotifData({status: 'active', code: err.response.status, msg: err.response.data.message})
+            setNotifData({status: 'active', code: err.response.status, msg: err.response.data.message, description: err.response.data.description})
         }
         setTimeout(()=>{
             setNotifData({status: 'un-active', code: null, msg: null})

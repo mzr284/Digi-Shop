@@ -3,7 +3,7 @@ import NotifContext from "./notifContext"
 
 export default function Notification(){
     let { notifData } = useContext(NotifContext)
-    let { status, code, msg } = notifData;
+    let { status, code, msg, description } = notifData;
     return(
         <div className={`flex justify-start items-center gap-4 py-1 pl-3 w-90 absolute
         ${code !== 200 ? 'bg-red-50 border-red-200 border-l-red-400': 'bg-green-50 border-green-200 border-l-green-400'}
@@ -16,9 +16,8 @@ export default function Notification(){
                 <i className="fas fa-times text-white rounded-full text-2xl p-3 bg-red-400"></i>
             }
             <div>
-                <p className="text-gray-800 font-serif te text-left text-[18px]">{code === 200 ?
-                "Sign up successfully!" : "Sign up failed!"}</p>
-                <p className="font-normal text-sm">{msg}</p>
+                <p className="text-gray-800 font-serif te text-left text-[18px]">{msg}</p>
+                <p className="font-normal text-sm">{description}</p>
             </div>
         </div>
     )

@@ -13,13 +13,13 @@ export default function Signin(){
         setEmail(""); setPassword("")
         try {
             const res = await axios.post("http://localhost:5000/signin", {email: email, password: password})
-            setNotifData({status: "active", code: res.status, msg: res.data.message})
+            setNotifData({status: "active", code: res.status, msg: res.data.message, description: res.data.description})
             setUser(res.data.user)
         } catch(err){
-            setNotifData({status: "active", code: err.response.status, msg: err.response.data.message})
+            setNotifData({status: "active", code: err.response.status, msg: err.response.data.message, description: err.response.data.description})
         }
         setTimeout(()=>{
-            setNotifData({status: "un-active", code: null, msg: null})
+            setNotifData({status: "un-active", code: null, msg: null, description: null})
         }, 2000)
     }
     
