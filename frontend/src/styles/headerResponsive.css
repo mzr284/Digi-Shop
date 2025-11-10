@@ -1,0 +1,18 @@
+@media(max-width:735px){
+    .item-container{
+        display: none;
+    }
+    .icon-bars{
+        display: block;
+    }
+}
+@media(max-width:630px){
+    .header{
+        padding-inline: 4px;
+    }
+}
+@media(max-width:560px){
+    .header{
+        padding-inline: 8px;
+    }
+}

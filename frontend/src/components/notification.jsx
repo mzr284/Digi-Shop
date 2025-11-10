@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import NotifContext from "./context"
+import NotifContext from "./notifContext"
 
 export default function Notification(){
     let { notifData } = useContext(NotifContext)

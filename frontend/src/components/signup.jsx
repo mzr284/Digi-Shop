@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useContext, useState } from "react"
-import NotifContext from "./context"
+import NotifContext from "./notifContext"
 
 export default function Signup(){
     let [username, setUsername] = useState("")
