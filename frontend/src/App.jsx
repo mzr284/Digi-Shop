@@ -9,6 +9,7 @@ import { useState } from 'react'
 import UserContext from './components/userContext'
 import AdminHome from './pages/adminHome'
 import AdminUsers from './pages/adminUsers'
+import Notification from './components/notification'
 
 
 function App() {

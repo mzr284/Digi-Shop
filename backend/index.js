@@ -66,8 +66,22 @@ app.post('/signin', async(req, res)=>{
     res.status(200).json({message: "Sign in successfully!", user: user, description: `Sign in successfully, welcome ${user.username}!`})
 })
 
-app.delete('/delete-user', async(req, res)=>{
-    
+app.delete('/delete-user/:id', async(req, res)=>{
+    const id = req.params.id;
+    const user = await User.findByIdAndDelete(id);
+    if(!user){
+        res.status(404).json({message: "Delete fialed!", description: "Your user not found"})
+    }
+    res.status(200).json({message: "Delete successfully!", description: "Your user remove from data base"})
+})
+
+app.patch('/update-user/:id', async(req, res) => {
+    const id = req.params.id;
+    const newUser = await User.findByIdAndUpdate(id, req.body, {new: true})
+    if(!newUser){
+        res.status(404).json({ message: "Update failed!", description: "Your targrt user not found!"})
+    }
+    res.status(200).json({ message: "Updata Successfully!", description: "Your target user has been updated!" })
 })
 
 app.listen(5000, ()=>{
