@@ -1,0 +1,12 @@
+@media(max-width:570px){
+    .footer{
+        justify-content: center;
+        gap: 40px;
+    }
+}
+@media(max-width:506px){
+    .footer{
+        flex-direction: column;
+        align-items: center;
+    }
+}

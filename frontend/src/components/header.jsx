@@ -1,15 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/headerResponsive.css"
 import UserContext from "./userContext";
 import { useContext } from "react";
 import NotifContext from "./notifContext";
 
 export default function Header(){
-    const { user, setUser } = useContext(UserContext);
+    const user = JSON.parse(localStorage.getItem("user"))
     const { setNotifData } = useContext(NotifContext);
+    const navigate = useNavigate();
+
     const Logout = async ()=>{
-        setUser(null);
+        localStorage.removeItem("user")
         setNotifData({ status: "active", code: 200, msg: "Logout Successfully! See you later" })
+        navigate('/')
         setTimeout(()=>{
             setNotifData({ status: "un-active", code:null, msg: null });
         }, 2000)

@@ -9,17 +9,16 @@ import { useState } from 'react'
 import UserContext from './components/userContext'
 import AdminHome from './pages/adminHome'
 import AdminUsers from './pages/adminUsers'
-import Notification from './components/notification'
-
 
 function App() {
   let [notifData, setNotifData] = useState([]);
   let [user, setUser] = useState(null);
+
   return (
     <div>
       <Router>
-        <NotifContext.Provider value={{ notifData, setNotifData}}>
         <UserContext.Provider value={{user, setUser}}>
+        <NotifContext.Provider value={{ notifData, setNotifData}}>
         <Header/>
         <Routes>
           <Route path='/' element={<Home/>}/>
@@ -29,8 +28,8 @@ function App() {
           </Route>
         </Routes>
         <Footer/>
-        </UserContext.Provider>
         </NotifContext.Provider>
+        </UserContext.Provider>
       </Router>
     </div>
   )

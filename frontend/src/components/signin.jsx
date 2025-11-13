@@ -1,20 +1,18 @@
 import axios from "axios";
 import { useContext, useState } from "react"
 import NotifContext from "./notifContext";
-import UserContext from "./userContext";
 
 export default function Signin(){
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
     let { setNotifData } = useContext(NotifContext);
-    let { setUser } = useContext(UserContext)
 
     const SignIn = async ()=>{
         setEmail(""); setPassword("")
         try {
             const res = await axios.post("http://localhost:5000/signin", {email: email, password: password})
             setNotifData({status: "active", code: res.status, msg: res.data.message, description: res.data.description})
-            setUser(res.data.user)
+            localStorage.setItem("user", JSON.stringify(res.data.user))
         } catch(err){
             setNotifData({status: "active", code: err.response.status, msg: err.response.data.message, description: err.response.data.description})
         }

@@ -34,6 +34,20 @@ app.get('/users', async (req, res)=>{
     }
 })
 
+app.get('/user/:id', async(req, res)=>{
+    try {
+        const id = req.params.id;
+        const user = await User.findById(id)
+        if(!user){
+            res.status(404).json({message: "Get user faild!", description: "Not exists any users with this informatoin"})
+        }
+        res.status(200).json({user: user})
+    }
+    catch(err){
+        res.status(500).json({message: "Get user faild!", description: "An error accured when get user"})
+    }
+})
+
 app.post("/signup", async (req, res)=>{
     const { username, email, password,  password2} = req.body;
     if(!username || ! email || !password || !password2){
