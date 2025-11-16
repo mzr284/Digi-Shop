@@ -17,11 +17,12 @@ export default function AddUser({st}){
             setNotifData({status: "active", code: res.status, msg: res.data.message, description: res.data.description})
         } catch(err){
             setNotifData({status: 'active', code: err.response.status, msg: err.response.data.message, description: err.response.data.description})  
+            console.log(err.response.data)
         }
         setTimeout(()=>{
             setNotifData({status: "un-active", code: null, msg: null, description: null})
         }, 2000)
-        setUsername(''); setEmail(''); setPassword(''); setRoleState('')
+        setUsername(''); setEmail(''); setPassword(''); setPass2(''); setRoleState('')
     }
     return(
         <div className="z-1300 fixed top-1/5 left-3/7 transform">
@@ -42,7 +43,7 @@ export default function AddUser({st}){
                         <input  className="bg-white shadow  rounded-sm px-2 py-1" value={password} onChange={e => setPassword(e.target.value)}/>
                     </div>
                     <div>
-                        <h3>Password</h3>
+                        <h3>Conf Password</h3>
                         <input  className="bg-white shadow  rounded-sm px-2 py-1" value={password2} onChange={e => setPass2(e.target.value)}/>
                     </div>
                     <div>
