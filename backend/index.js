@@ -49,7 +49,7 @@ app.get('/user/:id', async(req, res)=>{
 })
 
 app.post("/signup", async (req, res)=>{
-    const { username, email, password,  password2} = req.body;
+    const { username, email, password,  password2, roleState} = req.body;
     if(!username || ! email || !password || !password2){
         res.status(402).json({message: "Sign up failed!", description: "Please Enter your info compeletly"})
     }
@@ -62,6 +62,11 @@ app.post("/signup", async (req, res)=>{
         return
     }
     const newUser = User({username, password, email})
+    if(roleState == "admin"){
+        newUser.isAdmin = true
+    }else{
+        newUser.isAdmin = false
+    }
     await newUser.save();
     res.status(200).json({message: "Sign up successfully!", description: "Your sign up is done, Welcome to Digi Shop"})   
     
@@ -79,6 +84,7 @@ app.post('/signin', async(req, res)=>{
     }
     res.status(200).json({message: "Sign in successfully!", user: user, description: `Sign in successfully, welcome ${user.username}!`})
 })
+
 
 app.delete('/delete-user/:id', async(req, res)=>{
     const id = req.params.id;

@@ -1,0 +1,23 @@
+@media(max-width:745px){
+    .signup-container{
+        display: none;
+    }
+    .signin-form{
+        translate: 0;
+    }
+    .signin-container{
+        display: none;
+    }
+    .signup-form{
+        translate: 0;
+    }
+    .signin{
+        border-radius: 16px;
+    }
+    .signup{
+        border-radius: 16px;
+    }
+    .bt-change-form{
+        display: block;
+    }
+}

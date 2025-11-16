@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import NotifContext from '../components/notifContext'
 import Notification from '../components/notification'
 import AddUser from '../components/addUser'
+import "../styles/homeAdminResponsive.css"
 
 export default function AdminUsers(){
     let { setNotifData } = useContext(NotifContext)
@@ -142,33 +143,40 @@ export default function AdminUsers(){
     }
 
     return(
-        <div className='flex flex-wrap justify-between'>
-            {
-                <div className='w-screen h-full bg-gray-500 opacity-50 fixed z-1000 flex items-center justify-center'>
-                    <AddUser/>
+        <div className='users-container flex flex-col justify-between'>
+            {isAddUser ?
+            <div className='z-1001 flex'>
+                <div className='fixed w-[164vh] h-170 bg-gray-900 opacity-65 z-1000 flex items-center justify-center'>          
                 </div>
+                <AddUser st={setIsAddUser}/>
+            </div>
+            :
+            ''
             }
-            <div className='translate-y-11 z-100'>
-                <h2 className='font-medium mb-3 text-[18px] text-blue-950 border-b border-b-pink-400 w-18'>Search</h2>
-                <div className='flex items-center flex-wrap gap-14 bg-gradient-to-r from-pink-400 to-pink-500 py-2 px-4'>
-                    <input className='bg-white py-1 px-2 rounded-sm' placeholder='username' onChange={(e) => setUsernameSearch(e.target.value)}/>
-                    <input className='bg-white py-1 px-2 rounded-sm' placeholder='email' onChange={(e) => setEmailSearch(e.target.value)}/>
-                    <label className='flex items-center gap-4 text-blue-950 text-[17px] font-medium px-3 py-1 bg-white rounded-sm'>
-                        <div className='flex gap-1.5 hover:text-green-500 transition-all'><input className='cursor-pointer' type='radio' name='role' value="admin" checked={roelSerach === "admin"} onChange={e => checkRole(e.target.value)}/>admin</div>
-                        <div className='flex gap-1.5 hover:text-yellow-500 transition-all'><input className='cursor-pointer' type='radio' name='role' value="general" checked={roelSerach === "general"} onChange={e => checkRole(e.target.value)}/> general </div>
-                    </label>
-                    <label className='flex items-center gap-4 text-blue-950 text-[17px] font-medium px-3 py-1 bg-white rounded-sm'>
-                        <div className='flex gap-1.5 hover:text-green-500 transition-all'><input className='cursor-pointer' type='radio' name='status' value='active' checked={statusSearch === "active"} onChange={e => checkStatus(e.target.value)}/> active </div>
-                        <div className='flex gap-1.5 hover:text-red-500 transition-all'><input className='cursor-pointer' type='radio' name='status' value='inactive' checked={statusSearch === "inactive"} onChange={e => checkStatus(e.target.value)}/> inactive </div>
-                    </label>
+
+            <div className='filter-add'>
+                <div className='filter translate-y-11 z-100'>
+                    <h2 className='font-medium mb-3 text-[18px] text-blue-950 border-b border-b-pink-400 w-18'>Search</h2>
+                    <div className='filter flex items-center justify-between gap-14 bg-gradient-to-r from-pink-400 to-pink-500 py-2 px-4'>
+                        <input className='bg-white py-1 px-2 rounded-sm' placeholder='username' onChange={(e) => setUsernameSearch(e.target.value)}/>
+                        <input className='bg-white py-1 px-2 rounded-sm' placeholder='email' onChange={(e) => setEmailSearch(e.target.value)}/>
+                        <label className='flex items-center gap-4 text-blue-950 text-[17px] font-medium px-3 py-1 bg-white rounded-sm'>
+                            <div className='flex gap-1.5 hover:text-green-500 transition-all'><input className='cursor-pointer' type='radio' name='role' value="admin" checked={roelSerach === "admin"} onChange={e => checkRole(e.target.value)}/>admin</div>
+                            <div className='flex gap-1.5 hover:text-yellow-500 transition-all'><input className='cursor-pointer' type='radio' name='role' value="general" checked={roelSerach === "general"} onChange={e => checkRole(e.target.value)}/> general </div>
+                        </label>
+                        <label className='flex items-center gap-4 text-blue-950 text-[17px] font-medium px-3 py-1 bg-white rounded-sm'>
+                            <div className='flex gap-1.5 hover:text-green-500 transition-all'><input className='cursor-pointer' type='radio' name='status' value='active' checked={statusSearch === "active"} onChange={e => checkStatus(e.target.value)}/> active </div>
+                            <div className='flex gap-1.5 hover:text-red-500 transition-all'><input className='cursor-pointer' type='radio' name='status' value='inactive' checked={statusSearch === "inactive"} onChange={e => checkStatus(e.target.value)}/> inactive </div>
+                        </label>
+                    </div>
+                </div>
+                <div className='mt-13 flex gap-1'>
+                    <h2 className='font-medium text-green-900'>Add user</h2>
+                    <i onClick={() => setIsAddUser(true)} className='fa fa-plus p-1 bg-green-500 text-white rounded-full cursor-pointer'></i>
                 </div>
             </div>
-            <div className='mt-13 flex gap-1'>
-                <h2 className='font-medium text-green-900'>Add user</h2>
-                <i onClick={() => setIsAddUser(true)} className='fa fa-plus p-1 bg-green-500 text-white rounded-full cursor-pointer'></i>
-            </div>
-            <div className='flex flex-col mt-3 items-center'>
-            <div className='-translate-y-60 -translate-x-50 z-600'><Notification/></div>
+            <div className='show-users flex flex-col mt-3 items-center'>
+            <div className='-translate-y-60 -translate-x-50 z-1001'><Notification/></div>
             <div className='w-full translate-y-2 bg-gray-100 p-2 rounded-[10px]'>
                 <div className='mb-5 border-b border-b-gray-300 pb-2'>
                     <div className='w-full px-2'>
@@ -181,7 +189,7 @@ export default function AdminUsers(){
                         </div>
                     </div>
                 </div>
-                <div className='w-240 flex flex-col gap-0.5'>
+                <div className='flex flex-col gap-0.5'>
                     {
                         usersFilter.map((user, idx)=>(                        
                             <div className='flex justify-between items-center bg-gray-50 py-0.5' key={idx}>

@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useContext, useState } from "react"
 import NotifContext from "./notifContext";
+import "../styles/enterResponsive.css"
 
-export default function Signin(){
+export default function Signin({colStatus}){
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
     let { setNotifData } = useContext(NotifContext);
@@ -22,7 +23,8 @@ export default function Signin(){
     }
     
     return(
-        <div className="bg-white flex flex-col items-center px-3 py-5 gap-8 w-full rounded-l-2xl shadow text-center">
+        <div className={`signin bg-white flex flex-col items-center px-3 py-5 gap-8 w-full rounded-l-2xl shadow text-center transition-transform duration-700
+         ${colStatus ? '-translate-y-118' : 'translate-y-0'}`}>
             <h1 className="font-semibold text-3xl text-gray-800">Sign in</h1>
             <ul className="flex gap-2">
                 <li><i className="rounded-full p-3 border hover:border-pink-600 hover:bg-pink-600 hover:text-white transition cursor-pointer text-2xl fa-brands fa-google"></i></li>

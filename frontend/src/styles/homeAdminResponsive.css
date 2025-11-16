@@ -1,0 +1,41 @@
+@media(max-width:1298px){
+    .filter{
+        gap: 8px;
+    }
+    .menu{
+        width: 200px;
+    }
+    .menu h2{
+        width: 80%;
+    }
+}
+@media(max-width:1103px){
+    .menu{
+        left: 0;
+        translate: -100% ;
+        position: absolute;
+    }
+    .items-container{
+        justify-content: center;
+    }
+    .users-container{
+        translate: 0 5vh;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        gap: 3vh;
+    }
+    .show-users{
+        translate: 0 4vh;
+        width: 100vh;
+    }
+    .filter-add{
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 2vh;
+    }
+    .filter{
+        translate: 0 0;
+        flex-direction: column;
+    }
+}
