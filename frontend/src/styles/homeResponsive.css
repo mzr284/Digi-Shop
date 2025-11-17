@@ -1,3 +1,12 @@
+.products::-webkit-scrollbar{
+    background-color: rgb(244, 244, 244);
+    height: 3px;
+}
+.products::-webkit-scrollbar-thumb{
+    background-color: rgb(190, 190, 190);
+    border-radius: 8px;
+}
+
 @media(max-width:1254px){
     .banner-title{
         font-size: 35px;
