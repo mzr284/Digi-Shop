@@ -5,7 +5,7 @@ export default function Notification(){
     let { notifData } = useContext(NotifContext)
     let { status, code, msg, description } = notifData;
     return(
-        <div className={`flex justify-start items-center gap-4 py-1 pl-3 w-90 absolute
+        <div className={`flex justify-start items-center gap-4 py-1 pl-3 w-90 fixed
         ${code !== 200 ? 'bg-red-50 border-red-200 border-l-red-400': 'bg-green-50 border-green-200 border-l-green-400'}
         z-1001 h-18 border-l-5 border rounded-r-xl top-0 
         ${status !== 'active' ? 'translate-y-0' : 'translate-y-30'} transition-transform duration-700`}>

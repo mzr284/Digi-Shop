@@ -1,8 +1,10 @@
-import { useRef } from "react";
-import Rating from "./rating";
+import axios from "axios";
+import { useContext, useRef } from "react";
+import NotifContext from "./notifContext";
 
 export default function RowProducts({products, category}){
     const containerRef = useRef([])
+    const { setNotifData } = useContext(NotifContext)
     const handlerScroll = () => {
         if(containerRef.current) {
             containerRef.current.scrollBy({
@@ -21,6 +23,46 @@ export default function RowProducts({products, category}){
             });
         }
     }
+    function Rating({ rate }) {    /////     For Create Stars based on rates
+        const fullStar = Math.floor(rate);
+        const halfStar = rate % 1 >= 0.5 ? 1 : 0;
+        const emptyStar = 5 - fullStar - halfStar;
+    
+        const stars = [];
+    
+        for (let i = 0; i < fullStar; i++) {
+            stars.push(<i key={`full-${i}`} className="fa-solid fa-star text-transparent bg-yellow-400 bg-clip-text"></i>);
+        }
+        if (halfStar) {
+            stars.push(<i key="half" className="fa-solid fa-star bg-gradient-to-r from-yellow-400 from-50% to-gray-200 to-50% bg-clip-text text-transparent"></i>);
+        }
+        for (let i = 0; i < emptyStar; i++) {
+            stars.push(<i key={`empty-${i}`} className="fa-solid fa-star text-transparent bg-clip-text bg-gray-200"></i>);
+        }
+        return <div className="flex gap-0.5">{stars}</div>;
+    }
+    const AddToCart = async(productId)=>{
+        try {
+            const user = JSON.parse(localStorage.getItem("user"))
+            if(!user){
+                setNotifData({status: 'active', code: 400, msg:  "Add to cart failed!", description: "Please Sign in before add to your cart."})
+                setTimeout(()=>{
+                    setNotifData({status: 'un-active', code: null, msg: null, description: null})
+                }, 2000)
+                return
+            }
+            const userId = user._id
+            const res = await axios.post("http://localhost:5000/add-cart", {productId, userId})
+            setNotifData({status: 'active', code: res.status, msg: res.data.msg, description: res.data.description})
+            user.cart.push({ product: productId, count: 1})
+            localStorage.setItem("user", JSON.stringify(user))
+        } catch(err){
+            setNotifData({status: 'active', code: 400, msg: err.response.data.msg, description: err.response.data.description})
+        }
+        setTimeout(()=>{
+            setNotifData({status: 'un-active', code: null, msg: null, description: null})
+        }, 2000)
+    }
     return(
         <div className="px-10">
             <div className="flex items-start pb-1 mb-1 w-2/19 border-b-2 border-pink-700 font-semibold text-[18px]"><h3>{category}</h3></div>
@@ -34,11 +76,11 @@ export default function RowProducts({products, category}){
                             </div>
                             <div className="bg-pink-50 flex flex-col pl-2 items-start justify-center w-45 gap-1">
                                 <div><span className="font-bold">Title : </span><span>{product.title}</span></div>
-                                <div><span className="font-bold">Price : </span><span className="text-pink-700">{product.price}$</span></div>
-                                <div className="flex flex-col gap-0.5"><div><span className="font-bold">Rating : </span><span>{product.rating.rate}</span></div>
-                                <span><Rating rate={product.rating.rate}/></span></div>
-                                <button className="font-bold text-white bg-pink-600 px-1 rounded-sm shadow border-2 mt-1
-                                border-transparent cursor-pointer hover:text-pink-600 hover:bg-white hover:border-pink-600 transition-all">Add to cart</button>
+                                <div><span className="font-bold">Price : </span><span className="text-pink-700 font-semibold">{product.price}$</span></div>
+                                <div className="flex flex-col gap-0.5"><div><span className="font-bold">Rating : </span><span>{product.rating}</span></div>
+                                <Rating rate={product.rating}/></div>
+                                <button className="font-bold text-white bg-pink-600 px-1 rounded-sm shadow border-2 mt-1 border-transparent cursor-pointer
+                                 hover:text-pink-600 hover:bg-white hover:border-pink-600 transition-all" onClick={() => AddToCart(product._id)}>Add to cart</button>
                             </div>
                         </div> : ''
                     ))

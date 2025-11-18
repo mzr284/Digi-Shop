@@ -3,10 +3,12 @@ import "../styles/homeResponsive.css"
 import axios from "axios"
 import { useState } from "react"
 import RowProducts from "../components/rowProducts"
-import Rating from "../components/rating"
+import { useContext } from "react"
+import NotifContext from "../components/notifContext"
 
 export default function Home(){
-    let [products, setProducts] = useState([])    
+    let [products, setProducts] = useState([])
+    let { setNotifData } = useContext(NotifContext)
     const containerRef = useRef([])
     const handlerScroll = () => {
         if(containerRef.current) {
@@ -26,32 +28,71 @@ export default function Home(){
             });
         }
     }
-    useEffect(() => {
-        const getProductData = async() => {
+    useEffect(() => {    
+        const getProducts = async() =>{
             try{
-                const res = await axios.get("https://fakestoreapi.com/products")
-                setProducts(res.data)
-                localStorage.setItem("products", JSON.stringify(res.data))
+                const res = await axios.get("http://localhost:5000/products")
+                setProducts(res.data.products)
+                localStorage.setItem("products", JSON.stringify(res.data.products))
             } catch(err){
                 console.log(err)
             }
         }
-        getProductData();
+        getProducts();
     }, [])
-
-    //////////////  For Get Products From API
-
-    // const addProdcts = async()=> {
-    //     for(const product of products){
-    //         const res = await axios.post("http://localhost:5000/add-product", {category: product.category, description: product.description, image: product.image, price: product.price, 
-    //             rating: product.rating.rate, title: product.title
-    //         })
-    //         console.log(res.data)
-    //         console.log(1)
+    const AddToCart = async(productId)=>{
+        try {
+            const user = JSON.parse(localStorage.getItem("user"))
+            if(!user){
+                setNotifData({status: 'active', code: 400, msg:  "Add to cart failed!", description: "Please Sign in before add to your cart."})
+                setTimeout(()=>{
+                    setNotifData({status: 'un-active', code: null, msg: null, description: null})
+                }, 2000)
+                return
+            }
+            const userId = user._id
+            const res = await axios.post("http://localhost:5000/add-cart", {productId, userId})
+            setNotifData({status: 'active', code: res.status, msg: res.data.msg, description: res.data.description})
+            user.cart.push({ product: productId, count: 1})
+            localStorage.setItem("user", JSON.stringify(user))
+        } catch(err){
+            setNotifData({status: 'active', code: 400, msg: err.response.data.msg, description: err.response.data.description})
+        }
+        setTimeout(()=>{
+            setNotifData({status: 'un-active', code: null, msg: null, description: null})
+        }, 2000)
+    }
+    // useEffect(() => {
+    //     const getProductData = async() => {
+    //         try{
+    //             const res = await axios.get("https://fakestoreapi.com/products")
+    //             localStorage.setItem("products", JSON.stringify(res.data))
+    //             setProducts(JSON.parse(localStorage.getItem("products")))
+    //         } catch(err){
+    //             console.log(err)
+    //         }
     //     }
-    // }
-    // addProdcts();
+    //     getProductData();
+    // }, [])
+    function Rating({ rate }) {
+        const fullStar = Math.floor(rate);
+        const halfStar = rate % 1 >= 0.5 ? 1 : 0;
+        const emptyStar = 5 - fullStar - halfStar;
     
+        const stars = [];
+    
+        for (let i = 0; i < fullStar; i++) {
+            stars.push(<i key={`full-${i}`} className="fa-solid fa-star text-transparent bg-yellow-400 bg-clip-text"></i>);
+        }
+        if (halfStar) {
+            stars.push(<i key="half" className="fa-solid fa-star bg-gradient-to-r from-yellow-400 from-50% to-gray-200 to-50% bg-clip-text text-transparent"></i>);
+        }
+        for (let i = 0; i < emptyStar; i++) {
+            stars.push(<i key={`empty-${i}`} className="fa-solid fa-star text-transparent bg-clip-text bg-gray-200"></i>);
+        }
+        return <div className="flex gap-0.5">{stars}</div>;
+    }
+    useEffect
     return(
         <div className="main-container translate-y-25 mb-50 flex flex-col items-center gap-4">
             <div className="w-full flex flex-col justify-center items-center gap-2">
@@ -106,10 +147,10 @@ export default function Home(){
                                     <div className="bg-pink-50 flex flex-col pl-2 items-start justify-center w-9/10 gap-1 h-45">
                                         <div><span className="font-bold">Title : </span><span>{product.title}</span></div>
                                         <div><span className="font-bold">Price : </span><span className="text-pink-700 font-bold">{product.price}$</span></div>
-                                        <div className="flex items-center gap-1"><span className="font-bold">Rating : </span><span>{product.rating.rate}</span>
-                                        <span className="ml-3"><Rating rate={product.rating.rate}/></span></div>
-                                        <button className="font-bold text-white bg-pink-600 px-1 rounded-sm shadow border-2
-                                        border-transparent cursor-pointer hover:text-pink-600 hover:bg-white hover:border-pink-600 transition-all">Add to cart</button>
+                                        <div className="flex items-center gap-1"><span className="font-bold">Rating : </span><span>{product.rating}</span>
+                                        <span className="ml-3"><Rating rate={product.rating}/></span></div>
+                                        <button className="font-bold text-white bg-pink-600 px-1 rounded-sm shadow border-2 border-transparent cursor-pointer  
+                                        hover:text-pink-600 hover:bg-white hover:border-pink-600 transition-all" onClick={() => AddToCart(product._id)}>Add to cart</button>
                                     </div>
                                 </div> : ''
                             ))

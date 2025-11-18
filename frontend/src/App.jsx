@@ -9,6 +9,7 @@ import { useState } from 'react'
 import UserContext from './components/userContext'
 import AdminHome from './pages/adminHome'
 import AdminUsers from './pages/adminUsers'
+import Cart from './pages/cart'
 
 function App() {
   let [notifData, setNotifData] = useState([]);
@@ -26,6 +27,7 @@ function App() {
           <Route path='/admin' element={<AdminHome/>}>
             <Route path='users' element={<AdminUsers/>}/>
           </Route>
+          <Route path='/cart' element={<Cart/>}/>
         </Routes>
         <Footer/>
         </NotifContext.Provider>

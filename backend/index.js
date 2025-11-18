@@ -145,6 +145,73 @@ app.delete("/delete-products", async(req, res) => {
     }
 })
 
+app.post('/add-cart', async(req, res) => {
+    try {
+        const { productId, userId } = req.body;
+        const user = await User.findById(userId)
+        const product = await Product.findById(productId)
+        const exists = user.cart.find(item => item.product == productId)
+        if(exists){
+            res.status(405).json({msg: "Added failed!", description: "This product already exists in your cart!"}); return
+        }
+        user.cart.push({ product: product, count: 1 })
+        await user.save();
+        res.status(200).json({msg: "Added Successfully!", description: `The product Added to your cart.`, cart: user.cart})
+    } catch(err){
+        res.status(500).json({msg: "Server error", description: "An error has benn happened."})
+    }
+})
+// app.patch('/update-user/:id', async(req, res) => {
+//     const id = req.params.id;
+//     const newUser = await User.findByIdAndUpdate(id, req.body, {new: true})
+//     if(!newUser){
+//         res.status(404).json({ message: "Update failed!", description: "Your targrt user not found!"})
+//         return
+//     }
+//     res.status(200).json({ message: "Updata Successfully!", description: "Your target user has been updated!" })
+// })
+app.patch('/clear-cart/:id', async(req, res) => {
+    try{
+        const userId = req.params.id;
+        const newUser = await User.findByIdAndUpdate(userId, {cart: []}, {new: true})
+        res.status(200).json({cart: newUser.cart})
+    } catch(err){
+        res.status(500).json({msg: "Server error", description: "An error has benn happened."})
+    }
+})
+
+app.patch('/change-count/:userId/:itemId', async(req, res) => {
+    const userId = req.params.userId;
+    const itemId = req.params.itemId;
+    const amount = parseInt(req.body.amount);
+    const user = await User.findById(userId);
+    const item = user.cart.find(it => it._id == itemId)
+    if(item.count + amount > 0){
+        item.count += amount;
+    }
+    await user.save();
+    res.status(200).json({item: item})
+})
+
+app.get("/products/user/:id", async(req, res) => {
+    const userId = req.params.id;
+    const user = await User.findById(userId).populate("cart.product")
+    res.status(200).json({cart: user.cart})
+})
+
+app.patch("/remove-item/:userId/:productId", async(req, res) => {
+    const userId = req.params.userId;
+    const productId = req.params.productId;
+    const user = await User.findById(userId)
+    if(!user){
+        res.status(404).json({msg: "Remove item failed!", description: "Please sign in your account before it"}); return
+    }
+    const newCart = user.cart.filter(item => item._id != productId)
+    user.cart = newCart
+    await user.save();
+    res.status(200).json({msg: "Remove successfully!", description: "This item remove from your cart.", cart: user.cart})
+})
+
 app.listen(5000, ()=>{
     console.log("WOW")
 })

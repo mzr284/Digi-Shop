@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     isAdmin: {type: Boolean, default: false},
     avatar: {type: String, required: false},
     isActive: {type: Boolean, default: true},
-    cart: [{type: mongoose.Schema.Types.ObjectId, ref: 'product'}],
+    cart: [{product: {type: mongoose.Schema.Types.ObjectId, ref: "Product"}, count: {type: Number, default: 1}}],
 })
 
 export const User = mongoose.model("User", userSchema)
