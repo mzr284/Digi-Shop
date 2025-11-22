@@ -207,9 +207,21 @@ app.patch("/remove-item/:userId/:productId", async(req, res) => {
         res.status(404).json({msg: "Remove item failed!", description: "Please sign in your account before it"}); return
     }
     const newCart = user.cart.filter(item => item._id != productId)
+    console.log(newCart)
     user.cart = newCart
     await user.save();
     res.status(200).json({msg: "Remove successfully!", description: "This item remove from your cart.", cart: user.cart})
+})
+
+app.patch("/remove-cart/:userId", async(req, res) => {
+    const userId = req.params.userId;
+    const user = await User.findById(userId);
+    if(!user){
+        res.status(404).json({msg: "Remove item failed!", description: "Please sign in your account before it"}); return
+    }
+    user.cart = []
+    await user.save();
+    res.status(200).json({msg: "Remove successfully!", description: "Whole of items has been removed!", cart: user.cart})
 })
 
 app.listen(5000, ()=>{

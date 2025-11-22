@@ -176,7 +176,6 @@ export default function AdminUsers(){
                 </div>
             </div>
             <div className='show-users flex flex-col mt-3 items-center'>
-            <div className='-translate-y-60 -translate-x-50 z-1001'><Notification/></div>
             <div className='w-full translate-y-2 bg-gray-100 p-2 rounded-[10px]'>
                 <div className='mb-5 border-b border-b-gray-300 pb-2'>
                     <div className='w-full px-2'>

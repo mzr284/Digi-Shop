@@ -62,18 +62,6 @@ export default function Home(){
             setNotifData({status: 'un-active', code: null, msg: null, description: null})
         }, 2000)
     }
-    // useEffect(() => {
-    //     const getProductData = async() => {
-    //         try{
-    //             const res = await axios.get("https://fakestoreapi.com/products")
-    //             localStorage.setItem("products", JSON.stringify(res.data))
-    //             setProducts(JSON.parse(localStorage.getItem("products")))
-    //         } catch(err){
-    //             console.log(err)
-    //         }
-    //     }
-    //     getProductData();
-    // }, [])
     function Rating({ rate }) {
         const fullStar = Math.floor(rate);
         const halfStar = rate % 1 >= 0.5 ? 1 : 0;

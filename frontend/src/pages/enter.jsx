@@ -9,7 +9,7 @@ export default function Enter(){
     let [colStatus, setColStatus] = useState(false)
     return(
         <div className="w-full flex flex-col items-center justify-center h-170 bg-pink-50">
-            <Notification/>
+
             <div className="mx-5 w-180 flex justify-center mt-15">
                     { 
                         status === "signin" ?
