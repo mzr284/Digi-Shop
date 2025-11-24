@@ -170,7 +170,7 @@ export default function AdminUsers(){
                         </label>
                     </div>
                 </div>
-                <div className='mt-13 flex gap-1'>
+                <div className='add-user mt-13 flex gap-1'>
                     <h2 className='font-medium text-green-900'>Add user</h2>
                     <i onClick={() => setIsAddUser(true)} className='fa fa-plus p-1 bg-green-500 text-white rounded-full cursor-pointer'></i>
                 </div>

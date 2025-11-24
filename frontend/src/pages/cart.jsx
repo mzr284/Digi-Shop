@@ -31,7 +31,6 @@ export default function Cart(){
         }
         getProductObj();
     }, [])
-
     useEffect(() => {
         const inputs = {};
         let count = 0;
@@ -183,7 +182,7 @@ export default function Cart(){
                                                     <h3>Quantity</h3>
                                                     <div className="border border-gray-400 w-25 flex items-center">
                                                         <i className="fa fa-plus px-1 cursor-pointer" onClick={() => increase(item)}></i>
-                                                        <input className="text-center w-full border-l border-r border-l-gray-400 border-r-gray-400" value={inputs[item._id]}/>
+                                                        <span className="text-center w-full border-l border-r border-l-gray-400 border-r-gray-400">{inputs[item._id]}</span>
                                                         <i className="fa fa-minus px-1 cursor-pointer" onClick={() => decrease(item)}></i>
                                                     </div>
                                                 </div>
@@ -247,7 +246,11 @@ export default function Cart(){
                             <div className="border-t border-t-gray-500">
                                 <div className="flex justify-between pt-3">
                                     <span className="font-bold text-[17px]">Order Total : </span>
+                                    { hasDiscount ?
                                     <span className="font-bold">$ {Number((totalPrice * 0.8 + totalCount * deliveryPrices[deliveryStatus]).toFixed(3))}</span>
+                                        :
+                                    <span className="font-bold">$ {Number(totalPrice + totalCount * deliveryPrices[deliveryStatus]).toFixed(3)}</span>
+                                    }
                                 </div>
                             </div>
                             <div className="border-t-2 border-t-gray-700 pt-4">

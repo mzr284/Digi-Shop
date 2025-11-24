@@ -115,8 +115,8 @@ app.get('/products', async(req, res) => {
 })
 
 app.post('/add-product', async(req, res) => {
-    const { category, description, image, price, rating, title } = req.body;
-    if(!category || !image || !price || !rating || !title){
+    const { category, description, image, price, rating, votersCount, title, count } = req.body;
+    if(!category || !image || !price || !rating || !votersCount || !title || !count){
         res.status(400).json({msg: "Upload failed!", description: "Please fill in the all fields"})
         return
     }
@@ -125,7 +125,7 @@ app.post('/add-product', async(req, res) => {
         res.status(400).json({msg: "Upload failed!", description: "This product already exists!"})
         return
     }
-    const newProduct = Product({category, description, image, price, rating, title})
+    const newProduct = Product({category, description, image, price, rating, votersCount, title, count})
     await newProduct.save();
     res.status(200).json({product: newProduct, msg: "Upload successfully!"})
 })
@@ -145,6 +145,8 @@ app.delete("/delete-products", async(req, res) => {
     }
 })
 
+///////////////////// CART /////////////////////////
+
 app.post('/add-cart', async(req, res) => {
     try {
         const { productId, userId } = req.body;
@@ -161,15 +163,7 @@ app.post('/add-cart', async(req, res) => {
         res.status(500).json({msg: "Server error", description: "An error has benn happened."})
     }
 })
-// app.patch('/update-user/:id', async(req, res) => {
-//     const id = req.params.id;
-//     const newUser = await User.findByIdAndUpdate(id, req.body, {new: true})
-//     if(!newUser){
-//         res.status(404).json({ message: "Update failed!", description: "Your targrt user not found!"})
-//         return
-//     }
-//     res.status(200).json({ message: "Updata Successfully!", description: "Your target user has been updated!" })
-// })
+
 app.patch('/clear-cart/:id', async(req, res) => {
     try{
         const userId = req.params.id;

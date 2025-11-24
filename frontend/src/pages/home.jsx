@@ -8,6 +8,7 @@ import NotifContext from "../components/notifContext"
 
 export default function Home(){
     let [products, setProducts] = useState([])
+    let [productsApi, setProductsApi] = useState([])
     let { setNotifData } = useContext(NotifContext)
     const containerRef = useRef([])
     const handlerScroll = () => {
@@ -28,6 +29,28 @@ export default function Home(){
             });
         }
     }
+    useEffect(() => {
+        const getProductFromAPI = async()=>{
+            try{
+                const res = await axios.get("https://fakestoreapi.com/products")
+                setProductsApi(res.data)
+            } catch(err){
+                console.log(err)
+            }
+        }
+        getProductFromAPI();
+    }, [])
+    
+    // const insertProductToDb = async() => {
+        // for ( const item of productsApi){
+            // const randomCount = parseInt(Math.random(0, 1) * 90) + 10
+            // await axios.post("http://localhost:5000/add-product", {category: item.category, description: item.description, image: item.image, 
+                // price: item.price, rating: item.rating.rate, votersCount: item.rating.count, title: item.title, count: randomCount
+            // })
+        // }
+    // }
+    // insertProductToDb();
+    
     useEffect(() => {    
         const getProducts = async() =>{
             try{
@@ -80,7 +103,6 @@ export default function Home(){
         }
         return <div className="flex gap-0.5">{stars}</div>;
     }
-    useEffect
     return(
         <div className="main-container translate-y-25 mb-50 flex flex-col items-center gap-4">
             <div className="w-full flex flex-col justify-center items-center gap-2">

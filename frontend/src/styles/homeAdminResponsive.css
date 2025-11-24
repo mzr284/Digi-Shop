@@ -12,7 +12,7 @@
 @media(max-width:1103px){
     .menu{
         left: 0;
-        translate: -100% ;
+        translate: -110% ;
         position: absolute;
     }
     .items-container{
@@ -23,19 +23,31 @@
         flex-direction: row;
         justify-content: space-between;
         width: 100%;
-        gap: 3vh;
-    }
-    .show-users{
-        translate: 0 4vh;
-        width: 100vh;
-    }
-    .filter-add{
-        display: flex;
-        flex-direction: column-reverse;
-        gap: 2vh;
     }
     .filter{
         translate: 0 0;
         flex-direction: column;
+    }
+    .bar-icon{
+        display: block;
+    }
+    .users-container{
+        flex-direction: column;
+        gap: 0px;
+    }
+    .filter{
+        flex-direction: row;
+    }
+    .filter-add{
+        translate: 0 0px;
+        margin-top: 20px;
+        gap : 5px;
+    }
+    .add-user{
+        margin-top: 10px;
+    }
+    .show-users{
+        translate: 0 -1vh;
+        width: 100%;
     }
 }

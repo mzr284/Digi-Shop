@@ -1,0 +1,9 @@
+.table-items::-webkit-scrollbar{
+    background-color: rgb(244, 244, 244);
+    width: 3px;
+}
+.table-items::-webkit-scrollbar-thumb{
+    background-color: rgb(190, 190, 190);
+    width: 3px;
+    border-radius: 8px;
+}
