@@ -6,7 +6,7 @@ export default function AdminHome(){
     const user = JSON.parse(localStorage.getItem("user"))
     let [ sidebar, setSidebar ] = useState(false)
     return(
-        <div className="h-180 flex items-center justify-center mb-15">
+        <div className="h-180 flex items-center justify-center mb-18">
             { sidebar ?
             <div className="z-200 absolute w-full h-full bg-gray-600 opacity-40 ">
 
@@ -44,18 +44,18 @@ export default function AdminHome(){
                     <div className="flex flex-col">
                         <ul className="flex flex-col gap-5 pl-6 mt-1">
                             <Link to='/admin/users'><li className="flex cursor-pointer gap-3 items-center"><i className="text-xl fa fa-user"></i><span>Users</span></li></Link>
-                            <Link><li className="flex cursor-pointer gap-3 items-center"><i className="text-xl fa fa-store"></i><span>Products</span></li></Link>
+                            <Link to='/admin/products'><li className="flex cursor-pointer gap-3 items-center"><i className="text-xl fa fa-store"></i><span>Products</span></li></Link>
                             <Link><li className="flex cursor-pointer gap-3 items-center"><i className="text-xl fa fa-receipt translate-x-1"></i><span className="ml-2">Purchase History</span></li></Link>
                             <Link><li className="flex cursor-pointer gap-3 items-center"><i className="text-xl fa fa-chart-line translate-x-1"></i><span className="ml-2">Statistic</span></li></Link>
                         </ul>
                     </div>
                 </div>
                 {
-                    <div className="bar-icon translate-y-16 absolute left-3 hidden">
-                        <i className="absolute fa-solid fa-bars text-orange-500 text-2xl cursor-pointer" onClick={()=>setSidebar(true)}></i>
+                    <div className="z-1000 bar-icon translate-y-12 absolute left-3 hidden">
+                        <i className="absolute fa-solid fa-bars text-pink-600 text-2xl cursor-pointer" onClick={()=>setSidebar(true)}></i>
                     </div>
                 }
-                <div>
+                <div className="w-full">
                     <Outlet/>
                 </div>        
             </div>

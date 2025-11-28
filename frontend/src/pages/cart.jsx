@@ -72,9 +72,9 @@ export default function Cart(){
         }
     }
     const RemoveItem = async(item) => {
+        let newCart = []
         try{
             const res = await axios.patch(`http://localhost:5000/remove-item/${user._id}/${item._id}`)
-            let newCart = []
             cartProductObj.forEach(it => {
                 if(it._id != item._id){
                     newCart.push(it)
@@ -88,6 +88,10 @@ export default function Cart(){
         setTimeout(()=>{
             setNotifData({status: 'un-active', code: null, msg: null, description: null})
         }, 2000)
+        user.cart = newCart;
+        console.log(user.cart)
+        localStorage.setItem("user", JSON.stringify(user))
+        window.location.reload();
     }
     const GetCode = () => {
         const randomCode = Math.floor(Math.random() * Math.pow(10, 5)).toString().padStart('0')
@@ -124,6 +128,9 @@ export default function Cart(){
         setTimeout(() => {
             setNotifData({status: "un-active"})
         }, 2000)
+        user.cart = []
+        localStorage.setItem("user", JSON.stringify(user))
+        console.log(user)
         setConfrimRemove(false)
     }
     return(
@@ -166,7 +173,7 @@ export default function Cart(){
                         <div className="flex items-center gap-1"><i className="fa fa-bag-shopping text-xl"></i><h1 className="font-medium
                         text-xl">My Cart</h1></div>
                         <div>
-                            <button className="px-2 py-1 bg-gray-50 border border-gray-200 cursor-pointer -translate-y-3" onClick={() => setConfrimRemove(true)}>remove all</button>
+                            <button className="px-2 py-1 bg-gray-50 border border-gray-200 cursor-pointer -translate-y-3 hover:border-gray-500 transition-all" onClick={() => setConfrimRemove(true)}>remove all</button>
                             <div className="flex flex-col gap-5">
                                 {
                                     cartProductObj.map((item, idx) => (

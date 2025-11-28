@@ -146,7 +146,7 @@ export default function AdminUsers(){
         <div className='users-container flex flex-col justify-between'>
             {isAddUser ?
             <div className='z-1001 flex'>
-                <div className='fixed w-[164vh] h-170 bg-gray-900 opacity-65 z-1000 flex items-center justify-center'>          
+                <div className='fixed w-full h-170 bg-gray-900 opacity-65 z-1000 flex items-center justify-center'>          
                 </div>
                 <AddUser st={setIsAddUser}/>
             </div>
@@ -156,7 +156,7 @@ export default function AdminUsers(){
 
             <div className='filter-add'>
                 <div className='filter translate-y-11 z-100'>
-                    <h2 className='font-medium mb-3 text-[18px] text-blue-950 border-b border-b-pink-400 w-18'>Search</h2>
+                    <h2 className='font-medium mb-3 text-[18px] text-blue-950 border-b border-b-pink-400 w-18 mt-4'>Search</h2>
                     <div className='filter flex items-center justify-between gap-14 bg-gradient-to-r from-pink-400 to-pink-500 py-2 px-4'>
                         <input className='bg-white py-1 px-2 rounded-sm' placeholder='username' onChange={(e) => setUsernameSearch(e.target.value)}/>
                         <input className='bg-white py-1 px-2 rounded-sm' placeholder='email' onChange={(e) => setEmailSearch(e.target.value)}/>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useContext, useRef } from "react";
 import NotifContext from "./notifContext";
+import Rating from "./rating";
 
 export default function RowProducts({products, category}){
     const containerRef = useRef([])
@@ -22,24 +23,6 @@ export default function RowProducts({products, category}){
                 behavior: "smooth"
             });
         }
-    }
-    function Rating({ rate }) {    /////     For Create Stars based on rates
-        const fullStar = Math.floor(rate);
-        const halfStar = rate % 1 >= 0.5 ? 1 : 0;
-        const emptyStar = 5 - fullStar - halfStar;
-    
-        const stars = [];
-    
-        for (let i = 0; i < fullStar; i++) {
-            stars.push(<i key={`full-${i}`} className="fa-solid fa-star text-transparent bg-yellow-400 bg-clip-text"></i>);
-        }
-        if (halfStar) {
-            stars.push(<i key="half" className="fa-solid fa-star bg-gradient-to-r from-yellow-400 from-50% to-gray-200 to-50% bg-clip-text text-transparent"></i>);
-        }
-        for (let i = 0; i < emptyStar; i++) {
-            stars.push(<i key={`empty-${i}`} className="fa-solid fa-star text-transparent bg-clip-text bg-gray-200"></i>);
-        }
-        return <div className="flex gap-0.5">{stars}</div>;
     }
     const AddToCart = async(productId)=>{
         try {

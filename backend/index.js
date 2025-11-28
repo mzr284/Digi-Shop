@@ -114,6 +114,15 @@ app.get('/products', async(req, res) => {
     }
 })
 
+app.get('/product/:productId', async(req, res) => {
+    const productId = req.params.productId;
+    const product = await Product.findById(productId);
+    if(!product){
+        res.status(404).json({msg: "Upload product failed!", description: "Not found any product with this id."})
+    }
+    res.status(200).json({ product: product })
+})
+
 app.post('/add-product', async(req, res) => {
     const { category, description, image, price, rating, votersCount, title, count } = req.body;
     if(!category || !image || !price || !rating || !votersCount || !title || !count){
@@ -143,6 +152,16 @@ app.delete("/delete-products", async(req, res) => {
     } catch(err) {
         res.status(500).json({msg: "Server Error", description: "An error has been accured!", error: err})
     }
+})
+
+app.patch('/update-product/:productId', async(req, res)=>{
+    const productId = req.params.productId;
+    const product = await Product.findByIdAndUpdate(productId, req.body, {new: true});
+    if(!product){
+        res.status(404).json({message: "The product not found!"}); return;
+    }
+    await product.save();
+    res.status(200).json({message: "Updata Successfully!", new_Product: product});
 })
 
 ///////////////////// CART /////////////////////////

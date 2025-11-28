@@ -10,7 +10,8 @@ import UserContext from './components/userContext'
 import AdminHome from './pages/adminHome'
 import AdminUsers from './pages/adminUsers'
 import Cart from './pages/cart'
-import AdminProducts from './pages/products'
+import AdminProducts from './pages/adminProducts'
+import AdminProductDetail from './pages/adminProductDetail'
 
 function App() {
   let [notifData, setNotifData] = useState([]);
@@ -28,6 +29,7 @@ function App() {
           <Route path='/admin' element={<AdminHome/>}>
             <Route path='users' element={<AdminUsers/>}/>
             <Route path='products' element={<AdminProducts/>}/>
+            <Route path='product-details/:productId' element={<AdminProductDetail/>}/>
           </Route>
           <Route path='/cart' element={<Cart/>}/>
         </Routes>

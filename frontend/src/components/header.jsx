@@ -38,7 +38,10 @@ export default function Header(){
             {
                 user != null ?
                 <div className="item-container flex gap-3 items-center">
-                    <Link to='/cart'><i className="fa fa-cart-shopping text-xl cursor-pointer hover:bg-black hover:text-gray-200 transition-all hover:shadow p-2 rounded-full"></i></Link>
+                    <Link to='/cart' className="flex">
+                        <i className="fa fa-cart-shopping text-2xl cursor-pointer rounded-full"></i>
+                        <div className="bg-pink-500 text-white px-1 rounded-full -translate-x-1.5 pb-0.5 translate-y-1.5 h-5 text-[16px] flex items-center">{user.cart.length}</div>
+                    </Link>
                     <button className="shadow cursor-pointer bg-black border-1  text-white py-0.5 px-4 rounded-2xl
                     hover:bg-transparent hover:border-black hover:text-black transition-all"
                     onClick={Logout}>Logout your account</button>
@@ -55,7 +58,7 @@ export default function Header(){
             </button>
             </div>
         </div>
-        <div className="absolute z-1001 left-150"><Notification/></div>
+        <div className="z-1001 w-full"><Notification/></div>
         </div>
     )
 }
