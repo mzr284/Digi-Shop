@@ -46,8 +46,9 @@ export default function RowProducts({products, category}){
             setNotifData({status: 'un-active', code: null, msg: null, description: null})
         }, 2000)
     }
+    const categoryID = category.replace(" ","")
     return(
-        <div className="px-10">
+        <div id={`${categoryID}`} className={`px-10`}>
             <div className="flex items-start pb-1 mb-1 w-2/19 border-b-2 border-pink-700 font-semibold text-[18px]"><h3>{category}</h3></div>
             <div className="products flex gap-3 mt-5 overflow-hidden" ref={containerRef}>
                 {

@@ -12,6 +12,7 @@ import AdminUsers from './pages/adminUsers'
 import Cart from './pages/cart'
 import AdminProducts from './pages/adminProducts'
 import AdminProductDetail from './pages/adminProductDetail'
+import WelcomeAdmin from './components/welcomeAdmin'
 
 function App() {
   let [notifData, setNotifData] = useState([]);
@@ -27,6 +28,7 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/enter' element={<Enter/>}/>
           <Route path='/admin' element={<AdminHome/>}>
+            <Route path='' element={<WelcomeAdmin/>}/>
             <Route path='users' element={<AdminUsers/>}/>
             <Route path='products' element={<AdminProducts/>}/>
             <Route path='product-details/:productId' element={<AdminProductDetail/>}/>

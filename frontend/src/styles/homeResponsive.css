@@ -14,6 +14,11 @@
         translate: 200px -40px;
     }
 }
+@media(max-width:975px){
+    .cat-container img{
+        width: 80px;
+    }
+}
 @media(max-width:916px){
     .banner-title{
         translate: 100px -40px;
@@ -26,6 +31,9 @@
     .banner-title{
         font-size: 25px;
         width: 400px;
+    }
+    .left-right-scrollers{
+        display: block;
     }
 }
 @media(max-width:690px){

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Signin from "../components/signin";
 import Signup from "../components/signup";
 import Notification from "../components/notification";
@@ -7,6 +7,12 @@ import "../styles/enterResponsive.css"
 export default function Enter(){
     let [status, setStatus] = useState("signin");
     let [colStatus, setColStatus] = useState(false)
+    useEffect(()=>{
+        const y = 0 - window.pageYOffset;
+        window.scrollTo({
+           top: y,
+        })
+    }, [])
     return(
         <div className="w-full flex flex-col items-center justify-center h-170 bg-pink-50">
 

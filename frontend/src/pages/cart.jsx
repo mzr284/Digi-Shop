@@ -2,6 +2,8 @@ import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import NotifContext from "../components/notifContext"
 import { Link } from "react-router-dom"
+import "../styles/cartResponsive.css"
+import Summary from "../components/summary"
 
 export default function Cart(){
     let [cartProductObj, setCartProductObj] = useState([])
@@ -10,16 +12,8 @@ export default function Cart(){
     const [inputs, setInputs] = useState({})
     const [ totalCount, setTotalCount] = useState(0)
     const [ totalPrice, setTotalPrice ] = useState(0)
-    const [ discountCode, setDiscountCode ] = useState('')
-    const [ userCode, setUserCode ] = useState('')
-    const [ hasDiscount, setHasDiscount] = useState(false)
-    const [ deliveryStatus, setDeliveryStatus ] = useState('standard')
     const [confrimRemove, setConfrimRemove] = useState(false)
-    const deliveryPrices = {
-        "standard": 5,
-        "express": 10,
-        "store": 0
-    }    
+    const [openSide, setOpenSide] = useState(false)
     useEffect(() => {
         const getProductObj = async() => {
             try{
@@ -93,30 +87,6 @@ export default function Cart(){
         localStorage.setItem("user", JSON.stringify(user))
         window.location.reload();
     }
-    const GetCode = () => {
-        const randomCode = Math.floor(Math.random() * Math.pow(10, 5)).toString().padStart('0')
-        setDiscountCode(randomCode)
-        setNotifData({status: 'active', code: 200, msg: `Your Code is: ${randomCode}`, description: "You have just 1 minute for send code!"})
-        setTimeout(()=>{
-            setNotifData({status: "un-active"})
-        }, 5000)
-        setTimeout(() => {
-            setDiscountCode('')
-        }, 60000)
-    }
-    const ApllyCode = () => {
-        if(userCode && userCode === discountCode){
-            setNotifData({status: 'active', code: 200, msg: "Discount has been activated", description: "You have 20% discount for total price in your cart!"})
-            setHasDiscount(true)
-        }
-        else{
-            setNotifData({status: 'active', code: 400, msg: "The code is wrong", description: "Please enter correct code or maybe spent 1 minute after get code!"})
-        }
-        setUserCode("")
-        setTimeout(() => {
-            setNotifData({status: "un-active"})
-        }, 2000)
-    }
     const removeCart = async () => {
         try{
             const res = await axios.patch(`http://localhost:5000/remove-cart/${user._id}`)
@@ -133,13 +103,32 @@ export default function Cart(){
         console.log(user)
         setConfrimRemove(false)
     }
+    const makeShortTitle = (title, limit) => {
+        return title.length <= limit ? title : title.slice(0, limit) + "..."
+    }
     return(
-        <div>
+        <div className="flex items-center justify-center">
+            { openSide ?
+                <div className="back-drop w-full h-full fixed z-1401 top-0"></div>
+                :
+                ''
+            }
+            <div className="z-100 icon-sidebar hidden absolute right-7 top-30" onClick={()=>setOpenSide(true)}>
+                <div className="icon-container flex items-center gap-2 rounded-[15px] bg-pink-500 text-white py-1 px-3 transition hover:text-pink-500 hover:bg-white
+                shadow hover:shadow-pink-400 cursor-pointer">
+                    <i className="fa fa-receipt text-[18px]"></i>
+                    <h2 className="text-summary font-medium">Summary</h2>
+                </div>
+            </div>
+            <div className={`z-1402 summary-bars fixed hidden ${openSide ? '' : '-translate-x-full'} left-0 transition-transform duration-500
+            bg-white overflow-y-auto px-5 py-3 top-0 h-full`}>
+                <Summary totalCount={totalCount} totalPrice={totalPrice} className={"side-bar-summary"} setOpenSide={setOpenSide}/>
+            </div>
             {
                 cartProductObj.length ?
-                <div className="flex translate-y-25 mb-36 justify-between gap-10 px-30">
+                <div className="container flex translate-y-25 mb-36 justify-between gap-10">
                     {confrimRemove ?
-                    <div className="left-0 z-1000 absolute w-full h-full bg-gray-600 opacity-70 transition-transform"></div>
+                    <div className="left-0 z-1000 fixed w-full h-full bg-gray-600 opacity-70 transition-transform"></div>
                     :
                     ''
                     }
@@ -169,25 +158,28 @@ export default function Cart(){
                         :
                         ''
                     }
-                    <div className="flex flex-col items-center">
+                    <div className="my-cart flex flex-col items-center">
                         <div className="flex items-center gap-1"><i className="fa fa-bag-shopping text-xl"></i><h1 className="font-medium
                         text-xl">My Cart</h1></div>
                         <div>
-                            <button className="px-2 py-1 bg-gray-50 border border-gray-200 cursor-pointer -translate-y-3 hover:border-gray-500 transition-all" onClick={() => setConfrimRemove(true)}>remove all</button>
+                            <button className="remove-btn px-2 py-1 bg-gray-50 border border-gray-200 cursor-pointer -translate-y-3 hover:border-gray-500 transition-all" onClick={() => setConfrimRemove(true)}>remove all</button>
+                            <div className="flex items-center justify-center trash-icon hidden text-xl px-3 py-2 bg-gray-700 w-9 text-white rounded-xl -translate-y-1.5 -translate-x-2 hover:text-gray-700 hover:bg-white
+                             shadow hover:shadow-gray-600 transition-all cursor-pointer" onClick={() => setConfrimRemove(true)}><i className="fa fa-trash-can"></i></div>
                             <div className="flex flex-col gap-5">
                                 {
                                     cartProductObj.map((item, idx) => (
-                                        <div key={idx} className="flex gap-3 border-b border-b-gray-400 p-2">
+                                        <div key={idx} className="item-cart flex gap-3 border-b border-b-gray-400 p-2">
                                             <div className="flex items-center"><img className="w-25" src={item.product.image}/></div>
-                                            <div className="flex gap-10 mt-2">
-                                                <h3 className="w-50 font-medium">{item.product.title}</h3>
+                                            <div className="texts-item flex gap-10 mt-2">
+                                                <h3 className="full-title w-50 font-medium">{item.product.title}</h3>
+                                                <h3 className="sliced-title w-30 font-medium hidden">{makeShortTitle(item.product.title, 20)}</h3>
                                                 <div className="flex flex-col items-center">
                                                     <span>Each</span>
                                                     <span className="font-bold">${Number((item.product.price).toFixed(3))}</span>
                                                 </div>
                                                 <div className="flex flex-col items-center gap-1">
                                                     <h3>Quantity</h3>
-                                                    <div className="border border-gray-400 w-25 flex items-center">
+                                                    <div className="quantity border border-gray-400 w-25 flex items-center">
                                                         <i className="fa fa-plus px-1 cursor-pointer" onClick={() => increase(item)}></i>
                                                         <span className="text-center w-full border-l border-r border-l-gray-400 border-r-gray-400">{inputs[item._id]}</span>
                                                         <i className="fa fa-minus px-1 cursor-pointer" onClick={() => decrease(item)}></i>
@@ -205,84 +197,7 @@ export default function Cart(){
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-col items-center">
-                        <h1 className="text-[19px] mb-6"><i className="fa fa-lock mr-2 text-gray-800"></i>Cart Summary</h1>
-                        <div className="flex flex-col gap-2 w-80">
-                            <div className="w-full flex justify-between">
-                                <span className="font-medium">Products Subtotal :</span>
-                                {
-                                    hasDiscount ?
-                                    <div className="flex gap-2 font-bold">
-                                        <span>${Number((totalPrice * 0.8).toFixed(3))}</span>
-                                        <span className="line-through opacity-85 text-gray-800 font-normal">${Number((totalPrice).toFixed(3))}</span>
-                                    </div>
-                                    :
-                                    <span className="font-bold">${Number((totalPrice).toFixed(3))}</span>
-                                }
-                            </div>
-                            {
-                                hasDiscount?
-                                <div className="text-red-600 flex justify-between">
-                                    <span>Shipping Discount :</span>
-                                    <span className="font-bold">-${Number((0.2 * totalPrice).toFixed(3))}</span>
-                                </div>
-                                : ''
-                            }
-                            <div className="mb-3 w-full flex justify-between font-semibold">
-                                <span>Products Count: </span>
-                                <span>{totalCount}</span>
-                            </div>
-                            <div className="border-t border-t-gray-500 pt-2 mb-4">
-                                <h3 className="font-medium">Shipping Methods</h3>
-                                <div className="flex flex-col gap-2">
-                                    <p className="font-normal text-[15px] opacity-70 text-gray-900">Select your perferred shipping method bellow</p>
-                                    <label>
-                                        <div className="flex items-center gap-1 font-medium cursor-pointer"><input className="cursor-pointer" type="radio" value="standard" checked={deliveryStatus === "standard"}
-                                        onChange={e => setDeliveryStatus(e.target.value)}/>Standard Delivery</div>
-                                        <div className="flex items-center gap-1 font-medium cursor-pointer"><input className="cursor-pointer" type="radio" value="express" checked={deliveryStatus === "express"}
-                                        onChange={e => setDeliveryStatus(e.target.value)}/>Express Delivery</div>
-                                        <div className="flex items-center gap-1 font-medium cursor-pointer"><input className="cursor-pointer" type="radio" value="store" checked={deliveryStatus === "store"}
-                                        onChange={e => setDeliveryStatus(e.target.value)}/>Pick Up From Store</div>
-                                    </label>
-                                    <div className="flex justify-between">
-                                        <h3 className="font-medium">Delivery Price : </h3>
-                                        <span className="font-bold">$ {totalCount * deliveryPrices[deliveryStatus]}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="border-t border-t-gray-500">
-                                <div className="flex justify-between pt-3">
-                                    <span className="font-bold text-[17px]">Order Total : </span>
-                                    { hasDiscount ?
-                                    <span className="font-bold">$ {Number((totalPrice * 0.8 + totalCount * deliveryPrices[deliveryStatus]).toFixed(3))}</span>
-                                        :
-                                    <span className="font-bold">$ {Number(totalPrice + totalCount * deliveryPrices[deliveryStatus]).toFixed(3)}</span>
-                                    }
-                                </div>
-                            </div>
-                            <div className="border-t-2 border-t-gray-700 pt-4">
-                                <h2 className="font-medium">Aplly a Promotion Code</h2>
-                                <p className="font-normal text-[15px] opacity-70 text-gray-900">Please enter your code without any spaces.</p>
-                                <div className="mt-3">
-                                    <button className="cursor-pointer shadow px-2 font-medium rounded-sm border bg-red-600
-                                    text-white transition hover:bg-white hover:border-red-600 hover:text-red-600" onClick={GetCode}>Get Discount Code</button>
-                                </div>
-                                <div className="mt-3 flex items-center gap-7">
-                                    <input className="border rounded-sm w-full text-center shadow py-0.5" type="text" value={userCode} onChange={(e) => setUserCode(e.target.value)}/>
-                                    <button className="border px-2 py-0.5 rounded-sm cursor-pointer ml-3 font-medium hover:bg-gray-700 hover:text-white transition" onClick={ApllyCode}>Apply</button>
-                                </div>
-                                <div className="mt-7 items-center w-full text-center flex flex-col gap-2">
-                                    <button className="bg-black text-white font-bold w-5/6 py-2 shadow cursor-pointer">Proceed To Checkout</button>
-                                    <p className="text-start w-5/6 font-normal text-[15px] opacity-70 text-gray-900">By countinuing to checkout, you agree to our terms and conditions.</p>
-                                </div>
-                            </div>
-                            <div className="pt-2 mt-3 border-t-2 w-full text-center mb-3">
-                                <p className="mb-3 opacity-80 text-gray-800 text-[15px]">Or use other checkout methods:</p>
-                                <button className="bg-yellow-400 px-3 py-1.5 rounded-sm w-5/7 font-bold cursor-pointer shadow"><i className="fa-brands fa-paypal text-3xl text-blue-900 mr-1"></i>
-                                <span className="text-blue-900 text-xl">Pay</span><span className="text-xl text-blue-500">Pal</span></button>
-                            </div>
-                        </div>
-                    </div>
+                    <Summary totalCount={totalCount} totalPrice={totalPrice} className={"normal-summary"}/>
                 </div>
                 :
                 <div className="flex translate-y-32 mb-70 w-full justify-center">

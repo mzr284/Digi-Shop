@@ -55,6 +55,7 @@ export default function AdminHome(){
                         <i className="absolute fa-solid fa-bars text-pink-600 text-2xl cursor-pointer" onClick={()=>setSidebar(true)}></i>
                     </div>
                 }
+                
                 <div className="w-full">
                     <Outlet/>
                 </div>        

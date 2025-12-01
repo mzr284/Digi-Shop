@@ -220,7 +220,6 @@ app.patch("/remove-item/:userId/:productId", async(req, res) => {
         res.status(404).json({msg: "Remove item failed!", description: "Please sign in your account before it"}); return
     }
     const newCart = user.cart.filter(item => item._id != productId)
-    console.log(newCart)
     user.cart = newCart
     await user.save();
     res.status(200).json({msg: "Remove successfully!", description: "This item remove from your cart.", cart: user.cart})
@@ -238,5 +237,5 @@ app.patch("/remove-cart/:userId", async(req, res) => {
 })
 
 app.listen(5000, ()=>{
-    console.log("WOW")
+    console.log(">> Server Execute!")
 })
