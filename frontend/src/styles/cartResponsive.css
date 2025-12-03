@@ -11,6 +11,10 @@
     background-color: rgba(75, 75, 75, 0.118);
     backdrop-filter: blur(2px);
 }
+.back-drop-ly{
+    background-color: rgba(75, 75, 75, 0.353);
+    backdrop-filter: blur(3px);
+}
 @media(max-width:1056px){
     .normal-summary{
         width: 260px;

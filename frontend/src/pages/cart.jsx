@@ -113,13 +113,13 @@ export default function Cart(){
                 :
                 ''
             }
-            <div className="z-100 icon-sidebar hidden absolute right-7 top-30" onClick={()=>setOpenSide(true)}>
+            {/* <div className="z-100 icon-sidebar hidden right-7 top-30" onClick={()=>setOpenSide(true)}>
                 <div className="icon-container flex items-center gap-2 rounded-[15px] bg-pink-500 text-white py-1 px-3 transition hover:text-pink-500 hover:bg-white
                 shadow hover:shadow-pink-400 cursor-pointer">
                     <i className="fa fa-receipt text-[18px]"></i>
                     <h2 className="text-summary font-medium">Summary</h2>
                 </div>
-            </div>
+            </div> */}
             <div className={`z-1402 summary-bars fixed hidden ${openSide ? '' : '-translate-x-full'} left-0 transition-transform duration-500
             bg-white overflow-y-auto px-5 py-3 top-0 h-full`}>
                 <Summary totalCount={totalCount} totalPrice={totalPrice} className={"side-bar-summary"} setOpenSide={setOpenSide}/>
@@ -128,7 +128,7 @@ export default function Cart(){
                 cartProductObj.length ?
                 <div className="container flex translate-y-25 mb-36 justify-between gap-10">
                     {confrimRemove ?
-                    <div className="left-0 z-1000 fixed w-full h-full bg-gray-600 opacity-70 transition-transform"></div>
+                    <div className="back-drop-ly left-0 z-1000 fixed w-full h-screen opacity-85 shadow shadow-gray-600"></div>
                     :
                     ''
                     }
@@ -162,9 +162,18 @@ export default function Cart(){
                         <div className="flex items-center gap-1"><i className="fa fa-bag-shopping text-xl"></i><h1 className="font-medium
                         text-xl">My Cart</h1></div>
                         <div>
-                            <button className="remove-btn px-2 py-1 bg-gray-50 border border-gray-200 cursor-pointer -translate-y-3 hover:border-gray-500 transition-all" onClick={() => setConfrimRemove(true)}>remove all</button>
-                            <div className="flex items-center justify-center trash-icon hidden text-xl px-3 py-2 bg-gray-700 w-9 text-white rounded-xl -translate-y-1.5 -translate-x-2 hover:text-gray-700 hover:bg-white
-                             shadow hover:shadow-gray-600 transition-all cursor-pointer" onClick={() => setConfrimRemove(true)}><i className="fa fa-trash-can"></i></div>
+                            <div className="flex justify-between">
+                                <button className="remove-btn px-2 py-1 bg-gray-50 border border-gray-200 cursor-pointer -translate-y-3 hover:border-gray-500 transition-all" onClick={() => setConfrimRemove(true)}>remove all</button>
+                                <div className="flex items-center justify-center trash-icon hidden text-xl px-3 py-2 bg-gray-700 w-9 text-white rounded-xl hover:text-gray-700 hover:bg-white
+                                shadow hover:shadow-gray-600 transition-all cursor-pointer" onClick={() => setConfrimRemove(true)}><i className="fa fa-trash-can"></i></div>
+                                <div className="z-100 icon-sidebar hidden right-7 top-30" onClick={()=>setOpenSide(true)}>
+                                    <div className="icon-container flex items-center gap-2 rounded-[15px] bg-pink-500 text-white py-1 px-3 transition hover:text-pink-500 hover:bg-white
+                                    shadow hover:shadow-pink-400 cursor-pointer">
+                                        <i className="fa fa-receipt text-[18px]"></i>
+                                        <h2 className="text-summary font-medium">Summary</h2>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="flex flex-col gap-5">
                                 {
                                     cartProductObj.map((item, idx) => (

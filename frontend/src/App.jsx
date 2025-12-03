@@ -5,7 +5,7 @@ import Footer from './components/footer'
 import Home from './pages/home'
 import Enter from './pages/enter'
 import NotifContext from './components/notifContext'
-import { useState } from 'react'
+import { createContext, useState } from 'react'
 import UserContext from './components/userContext'
 import AdminHome from './pages/adminHome'
 import AdminUsers from './pages/adminUsers'
@@ -14,9 +14,11 @@ import AdminProducts from './pages/adminProducts'
 import AdminProductDetail from './pages/adminProductDetail'
 import WelcomeAdmin from './components/welcomeAdmin'
 
+// export  const BackDropContext = createContext();
 function App() {
   let [notifData, setNotifData] = useState([]);
   let [user, setUser] = useState(null);
+  // let [backDrop, setBackDrop] = useState(false)
 
   return (
     <div>

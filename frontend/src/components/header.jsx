@@ -203,7 +203,7 @@ export default function Header(){
 
             <div className="flex justify-between gap-10">
                 <div>
-                    <h2  className="categories shadow py-1 px-4 rounded-2xl items-center font-medium">Categories
+                    <h2  className="categories shadow py-1 px-4 rounded-2xl items-center font-medium bg-gray-100">Categories
                         <i className={`fa ${!open ? 'fa-chevron-down' : 'fa-chevron-up'} ml-2 cursor-pointer`} onClick={()=>setOpen(!open)}></i>
                     </h2>
                     { open ?

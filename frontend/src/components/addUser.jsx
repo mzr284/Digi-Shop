@@ -26,7 +26,7 @@ export default function AddUser({st}){
     }
     return(
         <div className="z-1300 fixed top-1/5 left-1/2 -translate-x-1/2 transform">
-            <form className="z-1300 flex flex-col bg-pink-100 px-4 py-1.5 text-center
+            <form className="z-1300 flex flex-col bg-indigo-100 px-4 py-1.5 text-center
             font-medium text-[17px] rounded-[10px] text-blue-950 items-center" onSubmit={(e) => AddUser(e)}>
                 <div className="w-full flex justify-end"><i className="fa fa-times z-1301 cursor-pointer" onClick={() => st(false)}></i></div>
                 <div className="flex flex-col gap-2 items-center">

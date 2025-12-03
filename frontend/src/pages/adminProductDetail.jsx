@@ -96,7 +96,7 @@ export default function AdminProductDetail(){
                 </button>
             </div>
             <h1 className="font-medium text-[20px] mb-2 -translate-y-2"><i className="fa fa-bag-shopping mr-2 text-pink-600"></i>Show & Update Product</h1>
-            <div className="flex w-full justify-between gap-5">
+            <div className="details-container flex w-full justify-between gap-5">
                 <div className="flex flex-col gap-4 rounded-2xl">
                     <div className="flex flex-col gap-5 bg-gray-100 px-3 pt-3 pb-6 rounded-2xl">
                         <h3 className="font-bold text-[17px]">General Information</h3>
@@ -147,7 +147,7 @@ export default function AdminProductDetail(){
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-3">
+                <div className="image-container flex flex-col gap-3">
                     <div className="gap-2 bg-gray-100 pb-7 rounded-2xl px-3 py-2">
                         <div className="flex flex-col gap-2">
                             <h3 className="font-bold">Image</h3>

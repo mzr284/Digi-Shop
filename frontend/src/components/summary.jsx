@@ -23,6 +23,9 @@ export default function Summary({totalCount, totalPrice, className, setOpenSide}
         setTimeout(() => {
             setDiscountCode('')
         }, 60000)
+        if(className === "side-bar-summary"){
+            setOpenSide(false)
+        }
     }
     const ApllyCode = () => {
         if(userCode && userCode === discountCode){
@@ -36,6 +39,9 @@ export default function Summary({totalCount, totalPrice, className, setOpenSide}
         setTimeout(() => {
             setNotifData({status: "un-active"})
         }, 2000)
+        if(className === "side-bar-summary"){
+            setOpenSide(false)
+        }
     }
     return(
         <div className={`${className + '-container'} flex flex-col items-center relative`}>

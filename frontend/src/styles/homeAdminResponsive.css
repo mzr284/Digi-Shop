@@ -1,15 +1,30 @@
+.backdrop-1{
+    background-color: rgba(75, 75, 75, 0.118);
+    backdrop-filter: blur(2px);
+}
+.backdrop-2{
+    background-color: rgba(127, 127, 127, 0.353);
+    backdrop-filter: blur(2px);
+}
+.tiangle{
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgb(50, 120, 255);
+}
 @media(max-width:1298px){
     .filter{
         gap: 8px;
     }
     .menu{
-        width: 200px;
+        width: 250px;
     }
     .menu h2{
         width: 80%;
     }
 }
-@media(max-width:1103px){
+@media(max-width:1199px){
     .menu{
         left: 0;
         translate: -110% ;
@@ -47,7 +62,21 @@
         margin-top: 10px;
     }
     .show-users{
-        translate: 0 -1vh;
+        translate: 0 -7vh;
         width: 100%;
+    }
+    .admin-users-container{
+        margin-left: 0;
+    }
+}
+@media(max-width:979px){
+    .header-table-users{
+        display: none
+    }
+    .users-card-laptop{
+        display: none;
+    }
+    .users-card-tablet{
+        display: flex;
     }
 }
