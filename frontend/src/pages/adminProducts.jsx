@@ -20,8 +20,9 @@ export default function AdminProducts(){
         getProducts()
     }, [])
     return(
-        <div className="translate-y-15 mt-3">
-            <div className="px-6">
+        <div className="main-container w-full ml-30 flex justify-center">
+            <div className="products-container mt-3 w-4/5">
+               <div className="px-6">
                 <div className="w-full flex justify-end bg-gradient-to-r from-pink-500 to-pink-700 pr-2 py-2 rounded-t-xl">
                     <div className="flex w-6/7 justify-between text-white font-semibold text-[17px]">
                         <span>category</span>
@@ -50,6 +51,7 @@ export default function AdminProducts(){
                         ))
                     }
                 </div>
+              </div>
             </div>
         </div>
     )

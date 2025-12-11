@@ -7,3 +7,15 @@
     width: 3px;
     border-radius: 8px;
 }
+@media(max-width:1199px){
+    .products-container{
+        width: 95%;
+    }
+    .main-container{
+        margin-left: 0;
+    }
+    .add-user-ly{
+        translate: -50% 0px;
+        top: 10%;
+    }
+}

@@ -17,6 +17,7 @@ export default function AdminUsers(){
     let [permissionState, setPermissionState] = useState(false)
     let [isChanged, setIsChanged] = useState(false)
     let [isAddUser, setIsAddUser] = useState(false)
+    let [isOpenSeaech, setIsOpenSearch] = useState(false)
     //////// For Search /////////
 
     let [usernameSearch, setUsernameSearch] = useState('')
@@ -172,29 +173,47 @@ export default function AdminUsers(){
     const makeShortText = (text, limit) => {
         return text.length <= limit ? text : text.slice(0, limit) + '...'
     }
+    const handleMouseHoverOnButtom = () => {
+        if(isOpenSeaech){
+            setTimeout(()=>{
+                setIsOpenSearch(false)
+            }, 1500)
+        }else{
+            setIsOpenSearch(true)
+        }
+    }
+    const clearSearchFields = () => {
+        setIsAdminSearch(null); setUsernameSearch('')
+        setIsActiveSearch(null); setEmailSearch('')
+        setRoleSearch(null); setStatusSearch(null)
+    }
     return(
-        <div className='admin-users-container w-full flex justify-center ml-30 items-center px-15'>
+        <div className='admin-users-container w-full flex justify-center items-center ml-30 px-15 mb-20'>
         {isAddUser ?
-            <div>
-                <div className='inset-0 backdrop-2 fixed w-full h-210 z-1000 flex items-center justify-center opacity-90'>          
+            <div className='overflow-hidden'>
+                <div className='inset-0 backdrop-2 fixed w-full h-full z-1000 flex items-center justify-center opacity-40'>          
                 </div>
                 <AddUser st={setIsAddUser}/>
             </div>
             :
             ''
         }
-        <div className='users-container flex flex-col justify-between'>
-            <div className='filter-add mb-10'>
-                <div className='filter translate-y-11 z-100'>
+        <div className='users-container flex flex-col justify-between relative pb-10 w-4/5'>
+            <div className='filter-add'>
+                <div className='filter z-100'>
                     <div className='w-full flex justify-between items-center'>
-                        <h2 className='font-medium mb-3 text-[18px] text-gray-800 border-b-2 border-b-gray-400 w-18 mt-4'>Search</h2>
+                        <h2 className='search-title font-medium mb-3 text-[18px] text-pink-600 border-b-2 border-b-pink-400 w-23 mt-4 flex items-center gap-1.5'><i className='fa fa-search'></i>Search</h2>
+                        <h1 className='font-medium pb-0.5 text-xl text-gray-900 border-b border-b-gray-800 flex items-center gap-2'>
+                            <i className='fa fa-users text-gray-700'></i>
+                            Users
+                        </h1>
                         <div className='add-user flex gap-1'>
-                            <i onClick={() => setIsAddUser(true)} className='fa fa-plus p-1 bg-green-500 text-white rounded-full cursor-pointer hover:text-green-500
-                            hover:bg-white shadow shadow-green-300 transition'></i>
-                            <h2 className='font-medium text-green-700 text-shadow-2xs text-shadow-green-300'>Add user</h2>
+                            <i onClick={() => setIsAddUser(true)} className='fa fa-plus p-1 bg-pink-500 text-white rounded-full cursor-pointer hover:text-pink-500
+                            hover:bg-white shadow shadow-pink-300 transition'></i>
+                            <h2 className='font-medium text-pink-600 text-shadow-2xs text-shadow-pink-300'>Add user</h2>
                         </div>
                     </div>
-                    <div className='filter flex items-center justify-between gap-14 bg-gray-200 rounded-[7px] shadow py-2 px-4'>
+                    <div id='filter-fields' className='filter flex items-center justify-between gap-14 bg-gray-200 rounded-[7px] shadow py-2 px-4'>
                         <input className='bg-white py-1 px-2 rounded-sm' placeholder='username' onChange={(e) => setUsernameSearch(e.target.value)}/>
                         <input className='bg-white py-1 px-2 rounded-sm' placeholder='email' onChange={(e) => setEmailSearch(e.target.value)}/>
                         <label className='flex items-center gap-4 text-blue-950 text-[17px] font-medium px-3 py-1 bg-white rounded-sm'>
@@ -209,6 +228,43 @@ export default function AdminUsers(){
                 </div>
             </div>
             <div className='show-users flex flex-col mt-3 items-center'>
+            <div className='group relative -left-1/2'>
+                <div className='search-section hidden absolute -left-2 top-5 -translate-x-full group cursor-pointer flex-col items-center gap-2 bg-green-500
+                text-white py-2 rounded-[7px] shadow shadow-green-300 z-500' onMouseEnter={handleMouseHoverOnButtom} onMouseLeave={handleMouseHoverOnButtom}>
+                    <span className='z-600 search-text-rotate text-[18px]'>search</span>
+                    <i className='z-600 fa fa-search text-[18px]'></i>
+                    <div className={`absolute z-0 opacity-0 flex group-hover:opacity-100 group-hover:z-500 flex-col cursor-pointer left-10 transition-opacity bg-violet-200 gap-5 duration-700 py-5 px-2 rounded-[7px] shadow-md
+                    shadow-violet-300 ${isOpenSeaech ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+                        <div className='flex flex-col gap-2'>
+                            <h5 className='font-medium text-shadow-md'>username</h5>
+                            <input value={usernameSearch} className='bg-white py-1 px-2 rounded-sm text-indigo-600 text-shadow-2xs text-shadow-indigo-100' onChange={(e) => setUsernameSearch(e.target.value)}/>
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                            <h5 className='font-medium text-shadow-md'>email</h5>
+                            <input value={emailSearch} className='bg-white py-1 px-2 rounded-sm text-indigo-600 text-shadow-2xs text-shadow-indigo-100' onChange={(e) => setEmailSearch(e.target.value)}/>
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                            <h5 className='font-medium text-shadow-md'>permission</h5>
+                            <label className='flex items-center gap-4 text-blue-950 text-[17px] font-medium px-3 py-1 bg-white rounded-sm'>
+                                <div className='flex gap-1.5 hover:text-green-500 transition-all'><input className='cursor-pointer' type='radio' name='role' value="admin" checked={roelSerach === "admin"} onChange={e => checkRole(e.target.value)}/>admin</div>
+                                <div className='flex gap-1.5 hover:text-yellow-500 transition-all'><input className='cursor-pointer' type='radio' name='role' value="general" checked={roelSerach === "general"} onChange={e => checkRole(e.target.value)}/> general </div>
+                            </label>
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                            <h5 className='font-medium text-shadow-md'>Activity</h5>
+                            <label className='flex items-center gap-4 text-blue-950 text-[17px] font-medium px-3 py-1 bg-white rounded-sm'>
+                                <div className='flex gap-1.5 hover:text-green-500 transition-all'><input className='cursor-pointer' type='radio' name='status' value='active' checked={statusSearch === "active"} onChange={e => checkStatus(e.target.value)}/> active </div>
+                                <div className='flex gap-1.5 hover:text-red-500 transition-all'><input className='cursor-pointer' type='radio' name='status' value='inactive' checked={statusSearch === "inactive"} onChange={e => checkStatus(e.target.value)}/> inactive </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div className='reset-filter z-0 absolute bg-green-500 hidden flex-col items-center gap-1 py-1 rounded-[7px] transition-transform duration-500 group-hover:opacity-100 group-hover:translate-y-31 -translate-x-8.5 translate-y-6
+                text-white cursor-pointer' onClick={clearSearchFields}>
+                    <span className='search-text-rotate text-[17px]'>reset</span>
+                    <i className='fa fa-rotate-left text-[17px]'></i>
+                </div>
+            </div>
             <div className='w-full translate-y-2 bg-gray-200 p-2 rounded-[10px]'>
                 <div className='header-table-users mb-2 border-b border-b-gray-400 pb-2'>
                     <div className='w-full px-2 font-medium text-gray-800'>
@@ -291,7 +347,7 @@ export default function AdminUsers(){
                 <div className='users-card-tablet hidden flex-wrap gap-6'>
                     {
                         usersFilter.map((user, index)=>(
-                            <div key={index} className='px-2 py-1.5 w-8/27 flex flex-col items-center bg-white shadow rounded-[10px]'>
+                            <div key={index} className='user-card px-2 py-1.5 w-8/27 flex flex-col items-center bg-white shadow rounded-[10px]'>
                                 <div className='w-full flex justify-between'>
                                     <button onClick={()=>Delete(user._id)} className='shadow p-1 w-7 cursor-pointer rounded-full bg-red-500 text-white  shadow-red-300 hover:bg-white hover:text-red-500 transition'><i className='fa fa-trash'></i></button>
                                     {
@@ -312,7 +368,7 @@ export default function AdminUsers(){
                                             {user.email}
                                             <span className='tiangle absolute top-full left-1/2 -translate-x-1/2'></span>
                                         </div>
-                                        <span>{makeShortText(user.email, 20)}</span>
+                                        <span>{makeShortText(user.email, 18)}</span>
                                     </span>
                                 </div>
                                 <div className='flex gap-5 mt-4 mb-2 border-b border-b-gray-400 pb-4 items-center'>

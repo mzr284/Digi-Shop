@@ -113,13 +113,6 @@ export default function Cart(){
                 :
                 ''
             }
-            {/* <div className="z-100 icon-sidebar hidden right-7 top-30" onClick={()=>setOpenSide(true)}>
-                <div className="icon-container flex items-center gap-2 rounded-[15px] bg-pink-500 text-white py-1 px-3 transition hover:text-pink-500 hover:bg-white
-                shadow hover:shadow-pink-400 cursor-pointer">
-                    <i className="fa fa-receipt text-[18px]"></i>
-                    <h2 className="text-summary font-medium">Summary</h2>
-                </div>
-            </div> */}
             <div className={`z-1402 summary-bars fixed hidden ${openSide ? '' : '-translate-x-full'} left-0 transition-transform duration-500
             bg-white overflow-y-auto px-5 py-3 top-0 h-full`}>
                 <Summary totalCount={totalCount} totalPrice={totalPrice} className={"side-bar-summary"} setOpenSide={setOpenSide}/>
@@ -128,7 +121,7 @@ export default function Cart(){
                 cartProductObj.length ?
                 <div className="container flex translate-y-25 mb-36 justify-between gap-10">
                     {confrimRemove ?
-                    <div className="back-drop-ly left-0 z-1000 fixed w-full h-screen opacity-85 shadow shadow-gray-600"></div>
+                    <div className="back-drop-ly left-0 z-1000 fixed w-full h-screen opacity-40 shadow shadow-gray-600"></div>
                     :
                     ''
                     }
