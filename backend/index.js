@@ -3,8 +3,8 @@ import cors from "cors"
 import dotenv from "dotenv"
 import connectDB from "./config/db.js"
 import {User} from './models/user.js'
-import multer from "multer"
 import { Product } from "./models/product.js"
+import { Order } from "./models/order.js"
 
 dotenv.config()
 connectDB()
@@ -234,6 +234,35 @@ app.patch("/remove-cart/:userId", async(req, res) => {
     user.cart = []
     await user.save();
     res.status(200).json({msg: "Remove successfully!", description: "Whole of items has been removed!", cart: user.cart})
+})
+
+/////////////////////   Orders   //////////////////////////
+app.get('/orders', async(req, res) => {
+    const orders = await Order.find()
+    res.status(200).json({orders: orders})
+})
+
+app.post('/add-order/:userId', async(req, res) => {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+    if(!user){
+        res.status(404).json({msg: "User not found!"})
+    }
+    const products = user.cart;
+    if(!products.length){
+        res.status(400).json({msg: "Payment faild!", description: "You don't allowed because your cart is empty!"})
+    }
+    const price = parseFloat(req.body.price);
+    const newOrder = Order({user, products, price})
+    await newOrder.save();
+    user.cart = [];
+    await user.save();
+    res.status(200).json({msg: "Payment Successfully!", description: "Payment done and Wait for send products.", order: newOrder, newUser: user})
+})
+
+app.delete('/remove-orders', async(req, res) => {
+    await Order.deleteMany({})
+    res.status(200).json({msg: "Delete Successfully!", description: "All of orders has been removed!"})
 })
 
 app.listen(5000, ()=>{

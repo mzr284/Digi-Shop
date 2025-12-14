@@ -15,6 +15,20 @@
     background-color: rgba(75, 75, 75, 0.353);
     backdrop-filter: blur(3px);
 }
+.backdrop-2{
+    backdrop-filter: blur(1px);
+}
+.checked-logo{
+    animation: shadow 3s infinite alternate;
+}
+@keyframes shadow {
+    from {
+        box-shadow: 0 0 10px 14px rgb(121, 255, 161)
+    } 
+    to {
+        box-shadow: 0 0 10px 0px rgb(145, 255, 178)
+    }
+}
 @media(max-width:1056px){
     .normal-summary{
         width: 260px;

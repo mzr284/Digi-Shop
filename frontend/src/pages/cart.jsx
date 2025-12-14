@@ -4,6 +4,7 @@ import NotifContext from "../components/notifContext"
 import { Link } from "react-router-dom"
 import "../styles/cartResponsive.css"
 import Summary from "../components/summary"
+import ConfirmPayment from "../components/confirmPayment"
 
 export default function Cart(){
     let [cartProductObj, setCartProductObj] = useState([])
@@ -14,6 +15,24 @@ export default function Cart(){
     const [ totalPrice, setTotalPrice ] = useState(0)
     const [confrimRemove, setConfrimRemove] = useState(false)
     const [openSide, setOpenSide] = useState(false)
+    const [confCheckOut, setConfCheckOut] = useState(false)
+    const [ finalPrice, setFinalPrice ] = useState(null)
+    const [confirmCode, setConfirmCode] = useState(null)
+    const [ confirmPassword, setConfirmPassword ] = useState('')
+    const [ entryConfirmCode, setEntryConfirmCode ] = useState('')
+    const [ confirmPayment, setConfirmPayment ] = useState(false)
+    const [ order, setOrder ] = useState(null)
+
+    const deliveryPrices = {
+        "standard": 5,
+        "express": 10,
+        "store": 0
+    }
+    useEffect(()=>{
+        scrollTo({
+            top: 0,
+        })
+    }, [])
     useEffect(() => {
         const getProductObj = async() => {
             try{
@@ -100,14 +119,77 @@ export default function Cart(){
         }, 2000)
         user.cart = []
         localStorage.setItem("user", JSON.stringify(user))
-        console.log(user)
         setConfrimRemove(false)
     }
     const makeShortTitle = (title, limit) => {
         return title.length <= limit ? title : title.slice(0, limit) + "..."
     }
+    const generateConfirmCode = (length) => {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz000111222333444555666777888999"
+        let result = ""
+        for(let i = 0; i < length; i++){
+            const randomIdx = parseInt(Math.floor(Math.random() * chars.length))
+            result += chars[randomIdx]
+        }
+        return result
+    }
+    const handleGenerateCode = () => {
+        const code = generateConfirmCode(6)
+        setConfirmCode(code)
+    }
+    useEffect(() => {
+        const code = generateConfirmCode(6);
+        setConfirmCode(code);
+    }, [])
+    const closeConfirmCheckout = () => {
+        setConfCheckOut(false)
+        setEntryConfirmCode('')
+        setConfirmPassword('')
+    }
+    const generatePayment = async(userId) => {
+        try{
+            const res = await axios.post(`http://localhost:5000/add-order/${userId}`, {price: finalPrice})
+            setOrder(res.data.order)
+            localStorage.setItem("user", JSON.stringify(res.data.newUser))
+            setNotifData({code: res.status, status: "active", msg: res.data.msg, description: res.data.description})
+            setCartProductObj([])
+        } catch(err){
+            setNotifData({code: err.response.status, status: "active", msg: err.response.data.msg, description: err.response.data.description})
+        }
+        setTimeout(() => {
+            setNotifData({status: "un-active"})
+        }, 2000)
+    }
+    const checkout = (e) => {
+        e.preventDefault();
+        const user = JSON.parse(localStorage.getItem("user"))
+        if(entryConfirmCode == "" || confirmPassword == ""){
+            setNotifData({code: 400, status: "active", msg: "Payment faild!", description: "Please Complete all of fields."})
+        }else{
+            if(user.password != confirmPassword){
+                setNotifData({code: 400, status: "active", msg: "Payment faild!", description: "the password is not correct!"})
+            }
+            else{
+                if(confirmCode != entryConfirmCode){
+                    setNotifData({code: 400, status: "active", msg: "Payment faild!", description: "the confirm code not equal with code in box!"})
+                }else{
+                    generatePayment(user._id)
+                    setConfirmPayment(true)
+                    closeConfirmCheckout();
+                }
+            }
+        }
+        handleGenerateCode();
+        setEntryConfirmCode(''); setConfirmPassword('');
+        setTimeout(()=>{
+            setNotifData({status: "un-active"})
+        }, 2000)
+    }
     return(
         <div className="flex items-center justify-center">
+            <div className={`${!confirmPayment ? 'hidden' : 'block'}`}>
+                <ConfirmPayment user={user} order={order} setConfirmPayment={setConfirmPayment}/>
+            </div>
             { openSide ?
                 <div className="back-drop w-full h-full fixed z-1401 top-0"></div>
                 :
@@ -115,8 +197,46 @@ export default function Cart(){
             }
             <div className={`z-1402 summary-bars fixed hidden ${openSide ? '' : '-translate-x-full'} left-0 transition-transform duration-500
             bg-white overflow-y-auto px-5 py-3 top-0 h-full`}>
-                <Summary totalCount={totalCount} totalPrice={totalPrice} className={"side-bar-summary"} setOpenSide={setOpenSide}/>
+                <Summary totalCount={totalCount} totalPrice={totalPrice} className={"side-bar-summary"} setOpenSide={setOpenSide}  setConfCheckOut={setConfCheckOut} setFinalPrice={setFinalPrice}/>
             </div>
+            {confCheckOut ?
+                <div className="backdrop-2 z-1000 inset-0 fixed w-full h-full bg-gray-800">
+                    <div className="absolute right-1/2 translate-x-1/2 top-1/2 -translate-y-1/2 bg-white flex flex-col gap-1
+                    px-6 pb-4 pt-2 rounded-[10px]">
+                        <div className="w-full flex justify-end"><i className="fa fa-arrow-left bg-pink-600 text-white text-xl px-2 py-0.5 rounded cursor-pointer hover:text-pink-600
+                        transition-all hover:bg-white border hover:border-pink-600" onClick={closeConfirmCheckout}></i></div>
+                        <div className="w-full flex justify-center"><img src="https://static.vecteezy.com/system/resources/thumbnails/022/801/316/small/check-out-icon-design-free-vector.jpg"
+                        className="w-15"/></div>
+                        <h2 className="font-medium text-[18px] text-center mb-10"> Confrim Checkout </h2>
+                        <div className="flex justify-between">
+                            <span className="font-medium text-gray-600">Total price</span>
+                            <span className="font-bold">$ {finalPrice}</span>
+                        </div>
+                        <form className="flex flex-col gap-2 mt-5" onSubmit={(e)=>checkout(e)}>
+                            <div className="flex flex-col gap-0.5">
+                                <span className="text-gray-600">your password :</span>
+                                <input type="password" className="px-1.5 py-0.5 border-b border-b-gray-400 font-medium" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/> 
+                            </div>
+                            <div className="flex justify-between flex-col gap-1 mt-2">
+                                <span className="text-gray-600">Confrim code</span>
+                                <div className="flex justify-between">
+                                    <div className="flex items-center gap-1">
+                                        <div className="px-4 py-1.5 border border-gray-200 font-serif text-[18px]">{confirmCode}</div>
+                                        <i className="fa fa-rotate text-[18px] text-gray-700 cursor-pointer" onClick={handleGenerateCode}></i>
+                                    </div>
+                                    <input type="password" className="w-5/9 px-2 border border-gray-300" placeholder="Enter left code here" value={entryConfirmCode} onChange={(e) => setEntryConfirmCode(e.target.value)}/>
+                                </div>
+                            </div>
+                            <button className="w-full bg-pink-600 text-white rounded-[10px] py-0.5 cursor-pointer shadow shadow-pink-300 mt-5
+                            transition-all hover:bg-pink-700 transform hover:scale-102">
+                                PAY NOW
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                :
+                null
+            }
             {
                 cartProductObj.length ?
                 <div className="container flex translate-y-25 mb-36 justify-between gap-10">
@@ -199,7 +319,7 @@ export default function Cart(){
                             </div>
                         </div>
                     </div>
-                    <Summary totalCount={totalCount} totalPrice={totalPrice} className={"normal-summary"}/>
+                    <Summary totalCount={totalCount} totalPrice={totalPrice} className={"normal-summary"} setConfCheckOut={setConfCheckOut} setFinalPrice={setFinalPrice}/>
                 </div>
                 :
                 <div className="flex translate-y-32 mb-70 w-full justify-center">

@@ -2,17 +2,22 @@ import { useState, useContext } from "react"
 import NotifContext from "./notifContext"
 import "../styles/cartResponsive.css"
 
-export default function Summary({totalCount, totalPrice, className, setOpenSide}){
+export default function Summary({totalCount, totalPrice, className, setOpenSide, setConfCheckOut, setFinalPrice}){
     const [ deliveryStatus, setDeliveryStatus ] = useState('standard')
     const [ hasDiscount, setHasDiscount] = useState(false)
     const [ discountCode, setDiscountCode ] = useState('')
     const [ userCode, setUserCode ] = useState('')
     let {setNotifData} = useContext(NotifContext)
     const deliveryPrices = {
-            "standard": 5,
-            "express": 10,
-            "store": 0
-        }
+        "standard": 5,
+        "express": 10,
+        "store": 0
+    }
+    if(!hasDiscount){
+        setFinalPrice(Number((totalPrice + totalCount * deliveryPrices[deliveryStatus]).toFixed(3)))
+    }else{
+        setFinalPrice(Number((totalPrice * 0.8 + totalCount * deliveryPrices[deliveryStatus]).toFixed(3)))
+    }
     const GetCode = () => {
         const randomCode = Math.floor(Math.random() * Math.pow(10, 5)).toString().padStart('0')
         setDiscountCode(randomCode)
@@ -42,6 +47,10 @@ export default function Summary({totalCount, totalPrice, className, setOpenSide}
         if(className === "side-bar-summary"){
             setOpenSide(false)
         }
+    }
+    const proccedToCheckout = ()=>{
+        setConfCheckOut(true);
+        setOpenSide(false);
     }
     return(
         <div className={`${className + '-container'} flex flex-col items-center relative`}>
@@ -118,7 +127,8 @@ export default function Summary({totalCount, totalPrice, className, setOpenSide}
                         <button className="border px-2 py-0.5 rounded-sm cursor-pointer ml-3 font-medium hover:bg-gray-700 hover:text-white transition" onClick={ApllyCode}>Apply</button>
                     </div>
                     <div className="mt-7 items-center w-full text-center flex flex-col gap-2">
-                        <button className="bg-black text-white font-bold w-5/6 py-2 shadow cursor-pointer">Proceed To Checkout</button>
+                        <button className="bg-black text-white font-bold w-5/6 py-2 shadow cursor-pointer transition-all hover:shadow-gray-500 hover:bg-white hover:text-black
+                        rounded-[5px]" onClick={proccedToCheckout}>Proceed To Checkout</button>
                         <p className="text-start w-5/6 font-normal text-[15px] opacity-70 text-gray-900">By countinuing to checkout, you agree to our terms and conditions.</p>
                     </div>
                 </div>
