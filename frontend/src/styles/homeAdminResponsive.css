@@ -72,6 +72,10 @@
     .main-container{
         margin-left: 0;
     }
+    .order-container{
+        margin-left: 0;
+        padding-inline: 40px;
+    }
 }
 @media(max-width:979px){
     .header-table-users{

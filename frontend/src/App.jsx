@@ -13,6 +13,7 @@ import Cart from './pages/cart'
 import AdminProducts from './pages/adminProducts'
 import AdminProductDetail from './pages/adminProductDetail'
 import WelcomeAdmin from './components/welcomeAdmin'
+import Orders from './pages/orders'
 
 // export  const BackDropContext = createContext();
 function App() {
@@ -34,6 +35,7 @@ function App() {
             <Route path='users' element={<AdminUsers/>}/>
             <Route path='products' element={<AdminProducts/>}/>
             <Route path='product-details/:productId' element={<AdminProductDetail/>}/>
+            <Route path='orders' element={<Orders/>}/>
           </Route>
           <Route path='/cart' element={<Cart/>}/>
         </Routes>

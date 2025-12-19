@@ -238,7 +238,7 @@ app.patch("/remove-cart/:userId", async(req, res) => {
 
 /////////////////////   Orders   //////////////////////////
 app.get('/orders', async(req, res) => {
-    const orders = await Order.find()
+    const orders = await Order.find().populate("products.product").populate("user")
     res.status(200).json({orders: orders})
 })
 
@@ -253,7 +253,10 @@ app.post('/add-order/:userId', async(req, res) => {
         res.status(400).json({msg: "Payment faild!", description: "You don't allowed because your cart is empty!"})
     }
     const price = parseFloat(req.body.price);
-    const newOrder = Order({user, products, price})
+    const deliveryType = req.body.deliveryType;
+    const deliveryPrice = req.body.deliveryPrice;
+    const discount = req.body.discount;
+    const newOrder = Order({user, products, deliveryType, deliveryPrice, discount, price})
     await newOrder.save();
     user.cart = [];
     await user.save();

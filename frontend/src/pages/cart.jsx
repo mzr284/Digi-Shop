@@ -22,11 +22,14 @@ export default function Cart(){
     const [ entryConfirmCode, setEntryConfirmCode ] = useState('')
     const [ confirmPayment, setConfirmPayment ] = useState(false)
     const [ order, setOrder ] = useState(null)
+    const [ deliveryStatus, setDeliveryStatus ] = useState('Standard Delivery')
+    const [deliveryPrice, setDeliveryPrice] = useState(0)
+    const [discount, setDiscount] = useState(0)
 
     const deliveryPrices = {
-        "standard": 5,
-        "express": 10,
-        "store": 0
+        "Standard Delivery": 5,
+        "Express Delivery": 10,
+        "Store Pickup": 0
     }
     useEffect(()=>{
         scrollTo({
@@ -146,9 +149,15 @@ export default function Cart(){
         setEntryConfirmCode('')
         setConfirmPassword('')
     }
+    useEffect(() => {
+        setDeliveryPrice(deliveryPrices[deliveryStatus] * totalCount)
+    }, [deliveryStatus, totalCount])
+
     const generatePayment = async(userId) => {
-        try{
-            const res = await axios.post(`http://localhost:5000/add-order/${userId}`, {price: finalPrice})
+        try{       
+            const res = await axios.post(`http://localhost:5000/add-order/${userId}`, {deliveryType: deliveryStatus, deliveryPrice: deliveryPrice, 
+                discount: discount, price: finalPrice
+            })
             setOrder(res.data.order)
             localStorage.setItem("user", JSON.stringify(res.data.newUser))
             setNotifData({code: res.status, status: "active", msg: res.data.msg, description: res.data.description})
@@ -197,7 +206,8 @@ export default function Cart(){
             }
             <div className={`z-1402 summary-bars fixed hidden ${openSide ? '' : '-translate-x-full'} left-0 transition-transform duration-500
             bg-white overflow-y-auto px-5 py-3 top-0 h-full`}>
-                <Summary totalCount={totalCount} totalPrice={totalPrice} className={"side-bar-summary"} setOpenSide={setOpenSide}  setConfCheckOut={setConfCheckOut} setFinalPrice={setFinalPrice}/>
+                <Summary totalCount={totalCount} totalPrice={totalPrice} className={"side-bar-summary"} setOpenSide={setOpenSide}  setConfCheckOut={setConfCheckOut} setFinalPrice={setFinalPrice}
+                setDeliveryPrice={setDeliveryPrice} setDiscount={setDiscount} deliveryStatus={deliveryStatus} setDeliveryStatus={setDeliveryStatus}/>
             </div>
             {confCheckOut ?
                 <div className="backdrop-2 z-1000 inset-0 fixed w-full h-full bg-gray-800">
@@ -319,7 +329,8 @@ export default function Cart(){
                             </div>
                         </div>
                     </div>
-                    <Summary totalCount={totalCount} totalPrice={totalPrice} className={"normal-summary"} setConfCheckOut={setConfCheckOut} setFinalPrice={setFinalPrice}/>
+                    <Summary totalCount={totalCount} totalPrice={totalPrice} className={"normal-summary"} setConfCheckOut={setConfCheckOut} setFinalPrice={setFinalPrice}
+                     deliveryStatus={deliveryStatus} setDeliveryStatus={setDeliveryStatus} setDiscount={setDiscount}/>
                 </div>
                 :
                 <div className="flex translate-y-32 mb-70 w-full justify-center">

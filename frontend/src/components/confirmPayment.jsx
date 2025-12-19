@@ -23,7 +23,7 @@ export default function ConfirmPayment({user, order, setConfirmPayment}){
                     </div>
                     <div className="flex justify-between items-center">
                         <span className="text-gray-700">Order ID</span>
-                        <span className="font-medium text-[15px] text-gray-900">312jkhjkhk121231</span>
+                        <span className="font-medium text-[14px] text-gray-900 tracking-tight">{order._id}</span>
                     </div>
                     <div className="flex justify-between items-center">
                         <span className="text-gray-700">Price</span>

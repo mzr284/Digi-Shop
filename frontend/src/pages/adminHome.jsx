@@ -28,7 +28,7 @@ export default function AdminHome(){
                             <i className="text-xl fa fa-user"></i><span>Users</span></li></Link>
                         <Link to='/admin/products'><li className="flex cursor-pointer gap-3 items-center px-3 py-1.5 rounded-[10px] transition-all hover:bg-white hover:text-pink-700 hover:font-semibold hover:shadow hover:shadow-pink-400"><i className="text-xl fa fa-store">
                             </i><span>Products</span></li></Link>
-                        <Link><li className="flex cursor-pointer gap-3 items-center px-3 py-1.5 rounded-[10px] transition-all hover:bg-white hover:text-pink-700 hover:font-semibold hover:shadow hover:shadow-pink-400"><i className="text-xl fa fa-receipt translate-x-1">
+                        <Link to='/admin/orders'><li className="flex cursor-pointer gap-3 items-center px-3 py-1.5 rounded-[10px] transition-all hover:bg-white hover:text-pink-700 hover:font-semibold hover:shadow hover:shadow-pink-400"><i className="text-xl fa fa-receipt translate-x-1">
                             </i><span className="ml-2">Purchase History</span></li></Link>
                         <Link><li className="flex cursor-pointer gap-3 items-center px-3 py-1.5 rounded-[10px] transition-all hover:bg-white hover:text-pink-700 hover:font-semibold hover:shadow hover:shadow-pink-400"><i className="text-xl fa fa-chart-line translate-x-1">
                             </i><span className="ml-2">Statistic</span></li></Link>
@@ -52,7 +52,7 @@ export default function AdminHome(){
                             <i className="text-xl fa fa-user"></i><span>Users</span></li></Link>
                         <Link to='/admin/products' onClick={()=>setSidebar(false)}><li className="flex cursor-pointer gap-3 items-center px-3 py-1.5 rounded-[10px] transition-all hover:bg-white hover:text-pink-700 hover:font-semibold hover:shadow hover:shadow-pink-400">
                             <i className="text-xl fa fa-store"></i><span>Products</span></li></Link>
-                        <Link><li className="flex cursor-pointer gap-3 items-center px-3 py-1.5 rounded-[10px] transition-all hover:bg-white hover:text-pink-700 hover:font-semibold hover:shadow hover:shadow-pink-400">
+                        <Link to='/admin/orders' onClick={()=>setSidebar(false)}><li className="flex cursor-pointer gap-3 items-center px-3 py-1.5 rounded-[10px] transition-all hover:bg-white hover:text-pink-700 hover:font-semibold hover:shadow hover:shadow-pink-400">
                             <i className="text-xl fa fa-receipt translate-x-1"></i><span className="ml-2">Purchase History</span></li></Link>
                         <Link><li className="flex cursor-pointer gap-3 items-center px-3 py-1.5 rounded-[10px] transition-all hover:bg-white hover:text-pink-700 hover:font-semibold hover:shadow hover:shadow-pink-400">
                             <i className="text-xl fa fa-chart-line translate-x-1"></i><span className="ml-2">Statistic</span></li></Link>

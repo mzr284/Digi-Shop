@@ -2,21 +2,24 @@ import { useState, useContext } from "react"
 import NotifContext from "./notifContext"
 import "../styles/cartResponsive.css"
 
-export default function Summary({totalCount, totalPrice, className, setOpenSide, setConfCheckOut, setFinalPrice}){
-    const [ deliveryStatus, setDeliveryStatus ] = useState('standard')
+export default function Summary({totalCount, totalPrice, className, setOpenSide, setConfCheckOut, setFinalPrice, deliveryStatus, setDeliveryStatus,
+    setDiscount
+}){
     const [ hasDiscount, setHasDiscount] = useState(false)
     const [ discountCode, setDiscountCode ] = useState('')
     const [ userCode, setUserCode ] = useState('')
     let {setNotifData} = useContext(NotifContext)
     const deliveryPrices = {
-        "standard": 5,
-        "express": 10,
-        "store": 0
+        "Standard Delivery": 5,
+        "Express Delivery": 10,
+        "Store Pickup": 0
     }
     if(!hasDiscount){
         setFinalPrice(Number((totalPrice + totalCount * deliveryPrices[deliveryStatus]).toFixed(3)))
+        setDiscount(0)
     }else{
         setFinalPrice(Number((totalPrice * 0.8 + totalCount * deliveryPrices[deliveryStatus]).toFixed(3)))
+        setDiscount(Number(totalPrice * 0.2).toFixed(3))
     }
     const GetCode = () => {
         const randomCode = Math.floor(Math.random() * Math.pow(10, 5)).toString().padStart('0')
@@ -92,11 +95,11 @@ export default function Summary({totalCount, totalPrice, className, setOpenSide,
                     <div className="flex flex-col gap-2">
                         <p className="font-normal text-[15px] opacity-70 text-gray-900">Select your perferred shipping method bellow</p>
                         <label>
-                            <div className="flex items-center gap-1 font-medium cursor-pointer"><input className="cursor-pointer" type="radio" value="standard" checked={deliveryStatus === "standard"}
+                            <div className="flex items-center gap-1 font-medium cursor-pointer"><input className="cursor-pointer" type="radio" value="Standard Delivery" checked={deliveryStatus === "Standard Delivery"}
                             onChange={e => setDeliveryStatus(e.target.value)}/>Standard Delivery</div>
-                            <div className="flex items-center gap-1 font-medium cursor-pointer"><input className="cursor-pointer" type="radio" value="express" checked={deliveryStatus === "express"}
+                            <div className="flex items-center gap-1 font-medium cursor-pointer"><input className="cursor-pointer" type="radio" value="Express Delivery" checked={deliveryStatus === "Express Delivery"}
                             onChange={e => setDeliveryStatus(e.target.value)}/>Express Delivery</div>
-                            <div className="flex items-center gap-1 font-medium cursor-pointer"><input className="cursor-pointer" type="radio" value="store" checked={deliveryStatus === "store"}
+                            <div className="flex items-center gap-1 font-medium cursor-pointer"><input className="cursor-pointer" type="radio" value="Store Pickup" checked={deliveryStatus === "Store Pickup"}
                             onChange={e => setDeliveryStatus(e.target.value)}/>Pick Up From Store</div>
                         </label>
                         <div className="flex justify-between">
