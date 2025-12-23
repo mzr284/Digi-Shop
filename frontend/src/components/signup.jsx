@@ -26,19 +26,19 @@ export default function Signup({colStatus}){
         <div className={`signup h-full w-full flex flex-col items-center justify-center bg-white transition-transform duration-700 text-center px-3 py-5 gap-5 rounded-r-2xl
         ${colStatus ? '-translate-y-118' : ''}`}>
             <h1 className="font-semibold text-3xl text-gray-800">Sign up</h1>
-            <ul className="flex gap-2">
+            <ul className="flex gap-2 z-1">
                 <li><i className="rounded-full p-3 border hover:border-pink-600 hover:bg-pink-600 hover:text-white transition cursor-pointer text-2xl fa-brands fa-google"></i></li>
                 <li><i className="rounded-full p-3 border hover:border-pink-600 hover:bg-pink-600 hover:text-white transition cursor-pointer text-2xl fa-brands fa-linkedin"></i></li>
                 <li><i className="rounded-full p-3 border hover:border-pink-600 hover:bg-pink-600 hover:text-white transition cursor-pointer text-2xl fa-brands fa-github"></i></li>
             </ul>
-            <p className="text-sm text-[16px]">Or use your info for sign up</p>
-            <form className="flex flex-col gap-3 w-full px-2">
+            <p className="text-sm text-[16px] z-1">Or use your info for sign up</p>
+            <form className="flex flex-col gap-3 w-full px-2 z-1">
                 <input className="bg-gray-200 p-2 rounded-[10px]" value={username} onChange={(e)=>setUsername(e.target.value)} placeholder="username"/>
                 <input className="bg-gray-200 p-2 rounded-[10px]" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="E-mail"/>
                 <input className="bg-gray-200 p-2 rounded-[10px]" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="password"/>
                 <input className="bg-gray-200 p-2 rounded-[10px]" value={password2} onChange={(e)=>setPassword2(e.target.value)} placeholder="confrim password"/>
             </form>
-            <button onClick={Signup} className="text-white border-2 bg-pink-600 rounded-[10px] py-2 px-10 shadow
+            <button onClick={Signup} className="z-1 text-white border-2 bg-pink-600 rounded-[10px] py-2 px-10 shadow
             cursor-pointer font-semibold hover:border-pink-600 hover:text-pink-600 hover:bg-white transition">Sign up</button>
         </div>
     )
