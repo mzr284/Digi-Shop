@@ -199,8 +199,31 @@ export default function Cart(){
             <div className={`${!confirmPayment ? 'hidden' : 'block'}`}>
                 <ConfirmPayment user={user} order={order} setConfirmPayment={setConfirmPayment}/>
             </div>
-            { openSide ?
-                <div className="back-drop w-full h-full fixed z-1401 top-0"></div>
+            <div id={`${openSide ? 'back-drop-show' : 'back-drop-remove'}`} className="back-drop w-full h-full fixed z-0 opacity-0 top-0"></div>
+            <div id={`${confrimRemove ? 'confirm-remove-show' : 'confirm-remove-remove'}`} className="back-drop-ly fixed opacity-0 z-0 h-full w-full inset-0"></div>
+            {confrimRemove ?
+                <div id={`${confrimRemove ? 'confirm-remove-show' : 'confirm-remove-remove'}`} className="opacity-0 fixed z-10 px-4 py-3 left-1/2 top-1/2 -translate-y-2/3 flex flex-col rounded-3xl -translate-x-1/2">
+                    <div className="bg-red-400 py-1 w-full flex justify-between text-white rounded-t-2xl pr-3">
+                        <span className="py-1.5 px-2">Confrim Deletion</span>
+                        <button><i className="fa fa-xmark cursor-pointer" onClick={() => setConfrimRemove(false)}></i></button>
+                    </div>
+                    <div className="bg-white py-6 px-7 rounded-b-2xl text-center flex flex-col gap-1">
+                        <i className="fa fa-exclamation-triangle text-red-400 mb-2 text-4xl"></i>
+                        <h2 className="text-center text-red-500 font-bold text-[19px]">Are You Sure?</h2>
+                        <p className="font-medium opacity-80">This action cannot be undone. Countinue?</p>
+                        <div className="w-full flex justify-center gap-4 mt-5">
+                            <button className="font-medium bg-red-400 rounded-2xl py-2 px-4 shadow cursor-pointer text-white flex gap-2 items-center border-2
+                            hover:bg-white hover:text-red-400 hover:border-red-400 transition-all" onClick={removeCart}>
+                                <i className="fa fa-trash-can"></i>Delete
+                            </button>
+                            <button className="font-medium bg-gray-200 rounded-2xl py-2 px-4 shadow cursor-pointer text-gray-800 flex gap-2 items-center border-transparent-2
+                            hover:bg-gray-600 hover:border-gray-200 hover:text-gray-200 transition-all" onClick={() => setConfrimRemove(false)}>
+                                <i className="fa fa-xmark"></i>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 :
                 ''
             }
@@ -250,37 +273,6 @@ export default function Cart(){
             {
                 cartProductObj.length ?
                 <div className="container flex translate-y-25 mb-36 justify-between gap-10">
-                    {confrimRemove ?
-                    <div className="back-drop-ly left-0 z-1000 fixed w-full h-screen opacity-40 shadow shadow-gray-600"></div>
-                    :
-                    ''
-                    }
-                    {confrimRemove ?
-                        <div className="absolute z-1001 px-4 py-3 left-1/2 top-20 flex flex-col rounded-3xl -translate-x-1/2">
-                            <div className="bg-red-400 py-1 w-full flex justify-between text-white rounded-t-2xl pr-3">
-                                <span className="py-1.5 px-2">Confrim Deletion</span>
-                                <button><i className="fa fa-xmark cursor-pointer" onClick={() => setConfrimRemove(false)}></i></button>
-                            </div>
-                            <div className="bg-white py-6 px-7 rounded-b-2xl text-center flex flex-col gap-1">
-                                <i className="fa fa-exclamation-triangle text-red-400 mb-2 text-4xl"></i>
-                                <h2 className="text-center text-red-500 font-bold text-[19px]">Are You Sure?</h2>
-                                <p className="font-medium opacity-80">This action cannot be undone. Countinue?</p>
-                                <div className="w-full flex justify-center gap-4 mt-5">
-                                    <button className="font-medium bg-red-400 rounded-2xl py-2 px-4 shadow cursor-pointer text-white flex gap-2 items-center border-2
-                                    hover:bg-white hover:text-red-400 hover:border-red-400 transition-all" onClick={removeCart}>
-                                        <i className="fa fa-trash-can"></i>Delete
-                                    </button>
-                                    <button className="font-medium bg-gray-200 rounded-2xl py-2 px-4 shadow cursor-pointer text-gray-800 flex gap-2 items-center border-transparent-2
-                                    hover:bg-gray-600 hover:border-gray-200 hover:text-gray-200 transition-all" onClick={() => setConfrimRemove(false)}>
-                                        <i className="fa fa-xmark"></i>
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        :
-                        ''
-                    }
                     <div className="my-cart flex flex-col items-center">
                         <div className="flex items-center gap-1"><i className="fa fa-bag-shopping text-xl"></i><h1 className="font-medium
                         text-xl">My Cart</h1></div>

@@ -44,15 +44,12 @@ export default function Header(){
     })
     return(
         <div id="header">
-            {sidebar ? 
+            
             <div>
-                <div className="backDr fixed w-full h-full z-1400">
-                
+                <div id={`${sidebar ? 'backDr-show' : 'backDr-remove'}`} className="backDr fixed w-full h-full opacity-0 z-0">
                 </div>
             </div>
-            :
-            ''
-            }
+            
             <div className={`fixed z-1401 left-0 bg-white shadow px-2 py-2 w-60 h-full ${sidebar? 'translate-x-0' : '-translate-x-full'}
             transition-transform duration-500`}>
                 <div className="absolute right-0 top-10 bg-green-500 text-white pr-1 pl-4 py-1 rounded-l-full shadow cursor-pointer h-8 w-12 group" onClick={()=>setSidebar(false)}>

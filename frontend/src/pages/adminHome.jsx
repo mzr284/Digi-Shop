@@ -7,13 +7,8 @@ export default function AdminHome(){
     let [ sidebar, setSidebar ] = useState(false)
     return(
         <div className="flex items-center justify-center mb-40">
-            { sidebar ?
-            <div className="backdrop-1 z-200 fixed w-full h-full translate-y-31">
-
+            <div id={`${sidebar? 'backdrop-1-show' : 'backdrop-1-remove'}`} className={`backdrop-1 fixed inset-0 w-full h-full opacity-0`}>
             </div>
-            :
-            ''
-            }
             <div className={`fixed left-0 top-9 menu z-200 w-60 bg-gradient-to-b from-pink-700 to-pink-500 h-full translate-y-10 shadow-2xl text-white items-center`}>
                 <h2 className="text-center text-[18px] pb-1 border-b border-gray-300 w-50 mx-5 mt-1 mb-3">Admin</h2>
                 <div className=" pb-1 pt-2 flex flex-col items-center mb-5 gap-0.5 shadow shadow-pink-500">

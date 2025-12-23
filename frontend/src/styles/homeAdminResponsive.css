@@ -2,6 +2,14 @@
     background-color: rgba(75, 75, 75, 0.118);
     backdrop-filter: blur(2px);
 }
+#backdrop-1-remove{
+    animation: backdrop-opacity-Out 300ms ease forwards;
+    z-index: 0;
+}
+#backdrop-1-show{
+    animation: backdrop-opacity-In 300ms ease forwards;
+    z-index: 200;
+}
 .backdrop-2{
     background-color: rgba(127, 127, 127, 0.353);
     backdrop-filter: blur(2px);
@@ -16,6 +24,14 @@
 .search-text-rotate{
     writing-mode: vertical-rl;
     transform: rotate(180deg);
+}
+@keyframes backdrop-opacity-In {
+    form { opacity: 0; z-index: 0;}
+    to { opacity: 100%; z-index: 200;}
+}
+@keyframes backdrop-opacity-Out {
+    from { opacity: 100%; z-index: 200;}
+    to { opacity: 0; z-index: 0; }
 }
 @media(max-width:1298px){
     .filter{

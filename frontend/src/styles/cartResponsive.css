@@ -11,15 +11,43 @@
     background-color: rgba(75, 75, 75, 0.118);
     backdrop-filter: blur(2px);
 }
+#back-drop-show{
+    animation: backdrop-opacity-In-cart 300ms ease forwards;
+}
+#back-drop-remove{
+    animation: backdrop-opacity-Out-cart 300ms ease forwards;
+}
 .back-drop-ly{
     background-color: rgba(75, 75, 75, 0.353);
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(2px);
+}
+#confirm-remove-show{
+    animation: backdrop-opacity-confirm-In 300ms ease forwards;
+}
+#confirm-remove-remove{
+    animation: backdrop-opacity-confirm-Out 300ms ease forwards;
 }
 .backdrop-2{
     backdrop-filter: blur(1px);
 }
 .checked-logo{
     animation: shadow 3s infinite alternate;
+}
+@keyframes backdrop-opacity-In-cart {
+    form{ opacity: 0; z-index: 0;}
+    to{ opacity: 100%; z-index: 1401;}
+}
+@keyframes backdrop-opacity-Out-cart {
+    from { opacity: 100%; z-index: 1401;}
+    to { opacity: 0; z-index: 0; }
+}
+@keyframes backdrop-opacity-confirm-In {
+    form{ opacity: 0; z-index: 0;}
+    to{ opacity: 100%; z-index: 10;}
+}
+@keyframes backdrop-opacity-confirm-Out {
+    from { opacity: 100%; z-index: 10;}
+    to { opacity: 0; z-index: 0;}
 }
 @keyframes shadow {
     from {

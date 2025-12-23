@@ -2,6 +2,22 @@
     background-color: rgba(75, 75, 75, 0.118);
     backdrop-filter: blur(2px);
 }
+#backDr-show{
+    animation: backdrop-opacity-In-home 300ms ease forwards;
+    z-index: 1400;
+}
+#backDr-remove{
+    animation: backdrop-opacity-Out-home 300ms ease forwards;
+    z-index: 0;
+}
+@keyframes backdrop-opacity-In-home {
+    form { opacity: 0; z-index: 0;}
+    to { opacity: 100%; z-index: 1400;}
+}
+@keyframes backdrop-opacity-Out-home {
+    from { opacity: 100%; z-index: 1400;}
+    to { opacity: 0; z-index: 0; }
+}
 @media(max-width:1050px){
     .icon-bars{
         display: block;
