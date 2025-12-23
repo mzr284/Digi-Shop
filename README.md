@@ -7,10 +7,10 @@ Also this site has very good responsive design for laptop, tablet and mobile.
 
 ## Preview
 
-### - Home
+### - Home page
 ![Home Page](frontend/src/assets/screenshots/home.png)
 
-###  - Signin
+###  - Signin page
 ![signin](frontend/src/assets/screenshots/signin.png)
 
 ### - Users details
@@ -19,13 +19,13 @@ Also this site has very good responsive design for laptop, tablet and mobile.
 ### - Product details
 ![Product Details](frontend/src/assets/screenshots/product-details.png)
 
-### - Cart
+### - Cart page
 ![Cart](frontend/src/assets/screenshots/cart.png)
 
 ### - Users details in tighter width
 ![User Details](frontend/src/assets/screenshots/users-details-tablet.png)
 
-### - Purchases in tigher width
+### - Purchases in tighter width
 ![Purchases](frontend/src/assets/screenshots/purchases-details.png)
 
 
@@ -41,7 +41,7 @@ Also this site has very good responsive design for laptop, tablet and mobile.
 - **React.js**
 - **Tailwind CSS**
 - **CSS5**
-- **Node.js** (Proxy Server)
+- **Node.js**
 
 
 ## API Info
